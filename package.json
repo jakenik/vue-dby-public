@@ -1,11 +1,11 @@
 {
   "name": "vue-dby-public",
   "description": "A Vue.js project",
-  "version": "1.0.2",
+  "version": "1.0.6",
   "author": "jake",
   "license": "MIT",
   "private": false,
-  "files": ["package.json","README.md","src"],
+  "files": ["package.json","README.md","src","packages","dist"],
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"

@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <!-- <div id="app">
+    <div id="app">
       <div @click="showPayPop">点击弹出支付框</div>
       <vue-pay-pop ref="pay" :payPopOptions="payPopOptions" @inputDown="inputDown"></vue-pay-pop>
-    </div> -->
+    </div>
   </div>
 </template>
 
