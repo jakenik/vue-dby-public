@@ -40,7 +40,7 @@
       </div>
     </div>
     <!-- 遮罩层 -->
-    <div class="gray-wrapper" v-show="payPopOptions.isShow"></div>
+    <div class="gray-wrapper" v-show="payPopOptions.isShow" @click="payPopOptions.isShow = false"></div>
   </div>
 </template>
 
