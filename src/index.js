@@ -1,5 +1,5 @@
 import PayPop from '../packages/pay-pop';
-const version = "1.0.6";
+const version = "1.1.6";
 const install = function(Vue) {
 
 };
