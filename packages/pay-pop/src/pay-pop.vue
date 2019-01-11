@@ -92,7 +92,7 @@
         if (this.val.length > 0) this.val.pop()
       },
       closePay () {
-        this.payPopOptions.isShow = false;
+        this.payPopOptions.isShow = false
       },
       $payStatus(flag = false) {
         const that = this
