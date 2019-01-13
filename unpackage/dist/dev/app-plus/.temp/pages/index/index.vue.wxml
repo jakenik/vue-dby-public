@@ -1,0 +1,13 @@
+<import src="/modules/vue-dby-public/dist/vue-dby-public.js.wxml" />
+<template name="260b742b">
+  <view class="_view data-v-cbac7566 content">
+    <image class="_image data-v-cbac7566 logo" src="../../static/logo.png"></image>
+    <view class="_view data-v-cbac7566">
+      <text class="_text data-v-cbac7566 title">{{title}}</text>
+    </view>
+    <view class="_view data-v-cbac7566">
+      <view bindtap="handleProxy" data-eventid="{{'RJj-0'}}" data-comkey="{{$k}}" class="_view data-v-cbac7566">点击弹出支付框</view>
+      <template ref="pay" bindinputDown="handleProxy" data-eventid="{{'2sH-1'}}" data-comkey="{{$k}}" data="{{...$root['0'], ...$root[$kk+'3Ea-0'],$root}}" is="c2195278"></template>
+    </view>
+  </view>
+</template>
