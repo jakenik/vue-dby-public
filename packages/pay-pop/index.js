@@ -1,1 +1,1 @@
-export { default } from './src/pay-pop.vue';
+export { default } from './src/pay-pop.vue'

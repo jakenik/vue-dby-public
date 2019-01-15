@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="app">
-      <div @click="showPayPop">点击弹出支付框</div>
+      <div class="c" @click="showPayPop">点击弹出支付框</div>
       <vue-pay-pop ref="pay" :payPopOptions="payPopOptions" @inputDown="inputDown"></vue-pay-pop>
     </div>
   </div>
@@ -9,6 +9,7 @@
 
 <script>
 // import vuePayPop from './lib/vue-pay-pop'
+import { Toast } from '../src/index'
 export default {
   name: 'app',
   data () {
@@ -20,6 +21,11 @@ export default {
   },
   components: {
     // vuePayPop
+  },
+  mounted: function () {
+    setTimeout(()=>{
+      Toast('好')
+    },1000)
   },
   methods: {
     inputDown(val) {
@@ -40,5 +46,5 @@ export default {
 </script>
 
 <style lang="scss">
-
+  .c{color: $nav-color;}
 </style>
