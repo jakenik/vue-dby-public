@@ -1,68 +1,67 @@
 <template>
-  <transition name="mint-toast-pop">
+  <transition name="dby-toast-pop">
     <div
-      class="mint-toast"
+      class="dby-toast"
       v-show="visible"
       :class="customClass"
-      :style="{ 'padding': iconClass === '' ? '10px' : '20px' }"
+      :style="{ 'padding': iconClass === '' ? '0.26rem' : '0.53rem' }"
     >
-      <i class="mint-toast-icon" :class="iconClass" v-if="iconClass !== ''"></i>
+      <i class="dby-toast-icon" :class="iconClass" v-if="iconClass !== ''"></i>
       <span
-        class="mint-toast-text"
-        :style="{ 'padding-top': iconClass === '' ? '0' : '10px' }"
+        class="dby-toast-text"
+        :style="{ 'padding-top': iconClass === '' ? '0' : '0.26rem' }"
       >{{ message }}</span>
-      <div class="c">2222222222222222222222</div>
     </div>
   </transition>
 </template>
 
 <style lang="scss">
-
-.toast {
+.dby-toast {
   position: fixed;
   max-width: 80%;
-  border-radius: 5px;
+  border-radius: 5 * $unit;
   background: rgba(0, 0, 0, 0.7);
   color: #fff;
   box-sizing: border-box;
   text-align: center;
   z-index: 1000;
-  transition: opacity 0.3s linear;
+  left: 50%;
+  top: 50%;
+  @include transition(opacity 0.3s linear);
+  @include translate(-50%, -50%);
+}
+.dby-toast-icon {
+  display: block;
+  text-align: center;
+  font-size: 56 * $unit;
+}
 
-  .icon {
-    display: block;
-    text-align: center;
-    font-size: 56px;
-  }
+.dby-toast-text {
+  font-size: 14 * $unit;
+  display: block;
+  text-align: center;
+}
 
-  .text {
-    font-size: 14px;
-    display: block;
-    text-align: center;
-  }
+.dby-toast-placetop {
+  top: 50 * $unit;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
 
-  .placetop {
-    top: 50px;
-    left: 50%;
-    transform: translate(-50%, 0);
-  }
+.dby-toast-placemiddle {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 
-  .placemiddle {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .placebottom {
-    bottom: 50px;
-    left: 50%;
-    transform: translate(-50%, 0);
-  }
-
-  .pop-enter,
-  pop-leave-active {
-    opacity: 0;
-  }
+.dby-toast-placebottom {
+  bottom: 50 * $unit;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+.dby-toast-pop-enter,
+.dby-toast-pop-leave-active {
+  opacity: 0;
 }
 </style>
 

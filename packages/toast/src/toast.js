@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-const ToastConstructor = Vue.extend(require('./toast.vue'))
+const ToastConstructor = Vue.extend(require('./toast.vue').default)
 let toastPool = []
 
 let getAnInstance = () => {
@@ -53,8 +53,6 @@ let Toast = (options = {}) => {
       instance.close()
     }, duration))
   })
-  console.log(instance)
-  
   return instance
 }
 

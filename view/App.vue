@@ -9,6 +9,7 @@
 
 <script>
 // import vuePayPop from './lib/vue-pay-pop'
+import '../src/style/common.scss'
 import { Toast } from '../src/index'
 export default {
   name: 'app',
@@ -16,35 +17,41 @@ export default {
     return {
       payPopOptions: {
         isShow: false
-      },
+      }
     }
   },
   components: {
     // vuePayPop
   },
   mounted: function () {
-    setTimeout(()=>{
+    setTimeout(() => {
       Toast('好')
-    },1000)
+    }, 1000)
+    console.log(this.$dbyPublic.wxApi);
+
+    this.$logger.info()
   },
   methods: {
-    inputDown(val) {
-    //模拟检查数据
-    setTimeout(() => {
-      if (val == '111111') {
-      this.$refs.pay.$payStatus(true)
-      } else {
-      this.$refs.pay.$payStatus(false)
-      }
-    }, 1000)
+    inputDown (val) {
+    // 模拟检查数据
+      setTimeout(() => {
+        if (val === '111111') {
+          this.$refs.pay.$payStatus(true)
+        } else {
+          this.$refs.pay.$payStatus(false)
+        }
+      }, 1000)
     },
-    showPayPop() {
-    this.payPopOptions.isShow = true;
+    showPayPop () {
+      this.payPopOptions.isShow = true
     }
   }
 }
 </script>
 
 <style lang="scss">
-  .c{color: $nav-color;}
+  .c{
+    color: $nav-color;
+    font-size: 30 * $unit;
+  }
 </style>
