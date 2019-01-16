@@ -10,7 +10,7 @@
 <script>
 // import vuePayPop from './lib/vue-pay-pop'
 import '../src/style/common.scss'
-import { Toast } from '../src/index'
+import { Toast, LoggerView } from '../src/index'
 export default {
   name: 'app',
   data () {
@@ -28,8 +28,12 @@ export default {
       Toast('好')
     }, 1000)
     console.log(this.$dbyPublic.wxApi);
-
-    this.$logger.info()
+    LoggerView({
+      title: '弹窗',
+      content: [],
+      success:()=>{}
+    });
+    // this.$logger.info(MessageBox)
   },
   methods: {
     inputDown (val) {

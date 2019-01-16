@@ -19,7 +19,7 @@
 .dby-toast {
   position: fixed;
   max-width: 80%;
-  border-radius: 5 * $unit;
+  border-radius: 5 * 2 * $unit;
   background: rgba(0, 0, 0, 0.7);
   color: #fff;
   box-sizing: border-box;
@@ -33,17 +33,17 @@
 .dby-toast-icon {
   display: block;
   text-align: center;
-  font-size: 56 * $unit;
+  font-size: 56 * 2 * $unit;
 }
 
 .dby-toast-text {
-  font-size: 14 * $unit;
+  font-size: 14 * 2 * $unit;
   display: block;
   text-align: center;
 }
 
 .dby-toast-placetop {
-  top: 50 * $unit;
+  top: 50 * 2 * $unit;
   left: 50%;
   transform: translate(-50%, 0);
 }
@@ -55,7 +55,7 @@
 }
 
 .dby-toast-placebottom {
-  bottom: 50 * $unit;
+  bottom: 50 * 2 * $unit;
   left: 50%;
   transform: translate(-50%, 0);
 }
