@@ -14,7 +14,7 @@ const DbyPublic = class dbyPublic {
   }
   loadData () {
     return {
-      debug: 'openView', // 开启log的debug close关闭 openView打开在视图上 openLog打开在浏览器上
+      debug: 'openLog', // 开启log的debug close关闭 openView打开在视图上 openLog打开在浏览器上
       logList: [] // log查询的所有数据
     }
   }

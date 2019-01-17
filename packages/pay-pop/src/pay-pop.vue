@@ -46,81 +46,81 @@
 </template>
 
 <script>
-  export default {
-    name: 'vue-pay-pop',
-    props: ['payPopOptions'],
-    data () {
-      return {
-        //可选参数，支持改变
-        //顶部文字
-        title: this.payPopOptions.title || '请输入支付密码',
-        //密码长度
-        pwdLength: this.payPopOptions.pwdLength || 6,
-        //底部删除按钮
-        del: this.payPopOptions.del,
-        //默认等候文字
-        loadingTxt: this.payPopOptions.loadingTxt || '请稍候...',
-        //默认等候时间
-        loadingTime: this.payPopOptions.loadingTime || 1000,
-        //显示结果后，多久重回默认
-        resultTime: this.payPopOptions.resultTime || 1000,
-        //成功文字
-        successTxt: this.payPopOptions.successTxt || '支付成功',
-        //失败文字
-        failTxt: this.payPopOptions.failTxt || '支付失败',
-        //默认参数，无法改变
-        //键盘数字(1~9)
-        keyBoards: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-        //键入的值
-        val: [],
-        //默认输入框与等待层是否显示
-        status: true
+export default {
+  name: 'vue-pay-pop',
+  props: ['payPopOptions'],
+  data () {
+    return {
+      // 可选参数，支持改变
+      // 顶部文字
+      title: this.payPopOptions.title || '请输入支付密码',
+      // 密码长度
+      pwdLength: this.payPopOptions.pwdLength || 6,
+      // 底部删除按钮
+      del: this.payPopOptions.del,
+      // 默认等候文字
+      loadingTxt: this.payPopOptions.loadingTxt || '请稍候...',
+      // 默认等候时间
+      loadingTime: this.payPopOptions.loadingTime || 1000,
+      // 显示结果后，多久重回默认
+      resultTime: this.payPopOptions.resultTime || 1000,
+      // 成功文字
+      successTxt: this.payPopOptions.successTxt || '支付成功',
+      // 失败文字
+      failTxt: this.payPopOptions.failTxt || '支付失败',
+      // 默认参数，无法改变
+      // 键盘数字(1~9)
+      keyBoards: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+      // 键入的值
+      val: [],
+      // 默认输入框与等待层是否显示
+      status: true
+    }
+  },
+  methods: {
+    val2input (item) {
+      this.val.push(item)
+      if (this.val.length === this.pwdLength) {
+        // 打开等待层
+        this.status = false
+        // 输入完毕后将值传递给父组件
+        this.$emit('inputDown', this.val.join(''))
+        // 清空数据
+        this.val = []
       }
     },
-    methods: {
-      val2input(item) {
-        this.val.push(item)
-        if (this.val.length == this.pwdLength) {
-          //打开等待层
-          this.status = false
-          //输入完毕后将值传递给父组件
-          this.$emit('inputDown', this.val.join(''))
-          //清空数据
-          this.val = []
+    delVal () {
+      if (this.val.length > 0) this.val.pop()
+    },
+    closePay () {
+      this.payPopOptions.isShow = false
+    },
+    $payStatus (flag = false) {
+      const that = this
+      // 模拟等候feel
+      setTimeout(() => {
+        if (flag) {
+          // 成功
+          this.loadingTxt = this.successTxt
+          // 关闭输入层，重置等待语
+          setTimeout(function () {
+            that.payPopOptions.isShow = !flag
+            that.status = true
+            that.loadingTxt = that.payPopOptions.loadingTxt || '请稍候...'
+          }, this.resultTime)
+        } else {
+          // 失败
+          this.loadingTxt = this.failTxt
+          // 重新打开输入层，重置等待语
+          setTimeout(function () {
+            that.status = true
+            that.loadingTxt = that.payPopOptions.loadingTxt || '请稍候...'
+          }, this.resultTime)
         }
-      },
-      delVal () {
-        if (this.val.length > 0) this.val.pop()
-      },
-      closePay () {
-        this.payPopOptions.isShow = false
-      },
-      $payStatus(flag = false) {
-        const that = this
-        //模拟等候feel
-        setTimeout(() => {
-          if (flag) {
-            //成功
-            this.loadingTxt = this.successTxt
-            //关闭输入层，重置等待语
-            setTimeout(function() {
-              that.payPopOptions.isShow = !flag
-              that.status = true
-              that.loadingTxt = that.payPopOptions.loadingTxt || '请稍候...'
-            }, this.resultTime)
-          } else {
-            //失败
-            this.loadingTxt = this.failTxt
-            //重新打开输入层，重置等待语
-            setTimeout(function() {
-              that.status = true
-              that.loadingTxt = that.payPopOptions.loadingTxt || '请稍候...'
-            }, this.resultTime)
-          }
-        }, this.loadingTime)
-      }
+      }, this.loadingTime)
     }
   }
+}
 </script>
 
 <style lang="scss">
