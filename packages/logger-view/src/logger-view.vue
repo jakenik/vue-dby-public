@@ -4,9 +4,10 @@
       <div class="md-content">
         <div class="md-content-h3">{{title}}</div>
         <div>
-          <div class="scroll-div-height">
-            <slot></slot>
-          </div>
+          <div class="logList">{{logList}}</div>
+          <!-- <div class="scroll-div-height" v-for="(item, index) in logList" :key="'logList' + index">
+            {{item}}
+          </div> -->
           <div class="md-botton-block">
             <button class="md-botton" @click="show = false">{{cancelText}}</button>
             <button class="md-botton" @click="show = false">{{confirmText}}</button>
@@ -22,39 +23,39 @@ export default {
   props: {
     title: {
       type: String,
-      default: "弹窗"
+      default: '弹窗'
     },
     content: Array,
     success: Function,
     cancelText: {
       type: String,
-      default: "取消"
+      default: '取消'
     },
     confirmText: {
       type: String,
-      default: "确定"
+      default: '确定'
     }
   },
-  data() {
+  data () {
     return {
       show: false
-    };
+    }
   },
   methods: {
 
   },
   computed: {
-    modalShowClass: function() {
-      let modal = ["md-modal", "md-effect-11"];
-      if (this.show) modal.push("md-show");
-      return modal.join(" ");
+    modalShowClass: function () {
+      let modal = ['md-modal', 'md-effect-11']
+      if (this.show) modal.push('md-show')
+      return modal.join(' ')
     }
   },
-  mounted: function() {
+  mounted: function () {
     console.log(this.showModal)
-    
+    console.log(this.logList)
   }
-};
+}
 </script>
 
 <style lang="scss">
@@ -85,12 +86,6 @@ export default {
   min-width: 320 * 2 * $unit;
   height: auto;
   z-index: 2000;
-  // background: #000000;
-  /* visibility: hidden;
-		-webkit-backface-visibility: hidden;
-		-moz-backface-visibility: hidden;
-		backface-visibility: hidden; */
-  /* opacity: 1; */
   -webkit-transform: translateX(-50%) translateY(-50%);
   -moz-transform: translateX(-50%) translateY(-50%);
   -ms-transform: translateX(-50%) translateY(-50%);
@@ -111,5 +106,9 @@ export default {
 }
 .md-botton-block {
   display: flex;
+}
+.logList{
+  height: 800 * $unit;
+  overflow-y:auto;
 }
 </style>

@@ -8,9 +8,8 @@
 </template>
 
 <script>
-// import vuePayPop from './lib/vue-pay-pop'
 import '../src/style/common.scss'
-import { Toast, LoggerView } from '../src/index'
+import { Toast, LoggerView, PageConfig } from '../src/index'
 export default {
   name: 'app',
   data () {
@@ -21,19 +20,22 @@ export default {
     }
   },
   components: {
-    // vuePayPop
   },
+  mixins: [PageConfig],
   mounted: function () {
     setTimeout(() => {
       Toast('好')
     }, 1000)
-    console.log(this.$dbyPublic.wxApi);
     LoggerView({
       title: '弹窗',
       content: [],
-      success:()=>{}
-    });
-    // this.$logger.info(MessageBox)
+      success: () => {}
+    })
+    this.$logger.info('MessageBox1')
+    this.$logger.info('MessageBox2')
+    this.$logger.info('MessageBox3')
+    this.$logger.info('MessageBox4')
+    this.$logger.info('MessageBox5')
   },
   methods: {
     inputDown (val) {
@@ -48,6 +50,12 @@ export default {
     },
     showPayPop () {
       this.payPopOptions.isShow = true
+    },
+    configSuccess(res) {
+      console.log(res);
+    },
+    configError(res) {
+      console.log(res);
     }
   }
 }

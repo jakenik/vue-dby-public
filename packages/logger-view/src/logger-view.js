@@ -9,7 +9,6 @@ console.log(1)
 let LoggerView = (options = {}) => {
   let instance = getTance()
 
-
   instance.title = options.title || ''
   instance.content = options.content || []
   instance.success = options.success || function () {}
