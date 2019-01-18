@@ -1,23 +1,30 @@
 <template>
-  <transition name="show">
-    <div v-show="show">
-      <div :class="modalShowClass" id="modal-11">
-        <div class="md-content">
-          <div class="md-content-h3">{{title}}</div>
-          <div>
-            <div class="logList">{{logList}}</div>
-            <!-- <div class="scroll-div-height" v-for="(item, index) in logList" :key="'logList' + index">
-              {{item}}
-            </div> -->
-            <div class="md-botton-block">
-              <button class="md-botton" @click="show = false">{{cancelText}}</button>
-              <button class="md-botton" @click="show = false">{{confirmText}}</button>
+  <div>
+    <transition name="show">
+      <div v-show="show && content">
+        <div class="dby-logView-modal" >
+          <div class="dby-logView-content">
+            <div class="dby-logView-content-h3">{{title}}</div>
+            <div>
+              <div class="dby-logView-logList" >
+                <div :class="'dby-logView-' + item.type" v-for="(item, index) in content" :key="'content' + index">
+                  {{item.value}}
+                </div>
+              </div>
+              <!-- <div class="scroll-div-height" v-for="(item, index) in logList" :key="'logList' + index">
+                {{item}}
+              </div> -->
+              <div class="dby-logView-botton-block">
+                <button class="dby-logView-botton" @click="show = false">{{cancelText}}</button>
+                <button class="dby-logView-botton" @click="show = false">{{confirmText}}</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </transition>
+    </transition>
+    <div class="" @click="show = true">开启</div>
+  </div>
 </template>
 
 <script type="text/babel">
@@ -45,7 +52,8 @@ export default {
   },
   data () {
     return {
-      show: false
+      show: null,
+      logList: null
     }
   },
   methods: {
@@ -53,26 +61,25 @@ export default {
   },
   computed: {
     modalShowClass: function () {
-      let modal = ['md-modal', 'md-effect-11']
-      if (this.show) modal.push('md-show')
+      let modal = ['dby-logView-modal', 'dby-logView-effect-11']
+      if (this.show) modal.push('dby-logView-show')
       return modal.join(' ')
     }
   },
   mounted: function () {
-    console.log(this.showModal)
-    console.log(this.logList)
+    console.log(this.content)
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 .show-enter-active, .show-leave-active {
-  transition: opacity .5s;
+  transition: opacity .3s;
 }
 .show-enter, .show-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
-.md-effect-11 .md-content {
+.dby-logView-effect-11 .dby-logView-content {
   -webkit-transform: scale(2);
   -moz-transform: scale(2);
   -ms-transform: scale(2);
@@ -83,14 +90,14 @@ export default {
   transition: all 0.3s;
 }
 
-.md-show.md-effect-11 .md-content {
+.dby-logView-show.dby-logView-effect-11 .dby-logView-content {
   -webkit-transform: scale(1);
   -moz-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
   opacity: 1;
 }
-.md-modal {
+.dby-logView-modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -104,7 +111,7 @@ export default {
   -ms-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
 }
-.md-content-h3 {
+.dby-logView-content-h3 {
   margin: 0;
   padding: 20 * $unit;
   text-align: center;
@@ -117,11 +124,20 @@ export default {
 .scroll-div-height {
   height: 900 * $unit;
 }
-.md-botton-block {
+.dby-logView-botton-block {
   display: flex;
 }
-.logList{
+.dby-logView-logList{
   height: 800 * $unit;
   overflow-y:auto;
+}
+.dby-logView-info, .dby-logView-log{
+ color: #000;
+}
+.dby-logView-warn{
+ color: #E6A23C;
+}
+.dby-logView-error{
+ color: #F56C6C;
 }
 </style>

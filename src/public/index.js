@@ -2,14 +2,17 @@
  * 公共api
  */
 import Vue from 'vue'
-import {getType} from '../extend/helper'
-// import LoggerView from '../../packages/logger-view'
+import {$getType} from '../extend/helper'
+import LoggerView from '../../packages/logger-view'
 const DbyPublic = class dbyPublic {
   constructor (sign) {
     this.onLoad(sign)
   }
   onLoad (sign) {
-    this.data = this.loadData()
+    let data = this.loadData()
+    for (let i in data) {
+      this[i] = data[i]
+    }
     this.apiRequire(sign)
     Vue.prototype.logList = []
   }
@@ -28,18 +31,20 @@ const DbyPublic = class dbyPublic {
   logger () {
     // 公共输出log方法
     let _push = (value, type) => {
-      if (this.data.debug === 'close') return
-      if (getType(value, 'object')) value = JSON.stringify(value)
-      else if (getType(value, ['function', 'number'])) value = value.toString()
+      if (this.debug === 'close') return
+      if ($getType(value, 'object')) value = JSON.stringify(value)
+      else if ($getType(value, ['function', 'number', 'error'])) value = value.toString()
       let json = {
         type,
         value
       }
-      this.data.logList.push(json)
-
-      Vue.set(Vue.prototype, 'logList', this.data.logList)
-      console.log(Vue)
-      // Vue.prototype.logList = this.data.logList
+      this.logList.push(json)
+      LoggerView({
+        title: '控制台',
+        content: this.logList,
+        success: () => {},
+        firstShow: false
+      })
     }
     let callBack = {
       log: value => {
@@ -55,7 +60,7 @@ const DbyPublic = class dbyPublic {
         _push(value, 'error')
       }
     }
-    switch (this.data.debug) {
+    switch (this.debug) {
       case 'openLog':
         return console
       case 'openView':

@@ -3,13 +3,14 @@
     <div id="app">
       <div class="c" @click="showPayPop">点击弹出支付框</div>
       <vue-pay-pop ref="pay" :payPopOptions="payPopOptions" @inputDown="inputDown"></vue-pay-pop>
+      
     </div>
   </div>
 </template>
 
 <script>
 import '../src/style/common.scss'
-import { Toast, LoggerView, PageConfig } from '../src/index'
+import { Toast, PageConfig } from '../src/index'
 export default {
   name: 'app',
   data () {
@@ -26,22 +27,20 @@ export default {
     // setTimeout(() => {
     //   Toast('好')
     // }, 1000)
-    LoggerView({
-      title: '弹窗',
-      content: [],
-      success: () => {}
-    })
+    
     this.$logger.info('MessageBox1')
-    this.$logger.info('MessageBox2')
-    this.$logger.info('MessageBox3')
-    this.$logger.info('MessageBox4')
     this.$logger.info(function () {
       console.log(11)
     })
     setTimeout(() => {
-      console.log(111)
+      try {
+        var b = a
+      } catch (error) {
+        console.log(error);
+        
+        this.$logger.error(error)
+      }
       
-      this.$logger.info('xxxx')
     }, 3000)
   },
   methods: {
