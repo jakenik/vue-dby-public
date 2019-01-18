@@ -23,9 +23,9 @@ export default {
   },
   mixins: [PageConfig],
   mounted: function () {
-    setTimeout(() => {
-      Toast('好')
-    }, 1000)
+    // setTimeout(() => {
+    //   Toast('好')
+    // }, 1000)
     LoggerView({
       title: '弹窗',
       content: [],
@@ -35,7 +35,14 @@ export default {
     this.$logger.info('MessageBox2')
     this.$logger.info('MessageBox3')
     this.$logger.info('MessageBox4')
-    this.$logger.info('MessageBox5')
+    this.$logger.info(function () {
+      console.log(11)
+    })
+    setTimeout(() => {
+      console.log(111)
+      
+      this.$logger.info('xxxx')
+    }, 3000)
   },
   methods: {
     inputDown (val) {
@@ -51,11 +58,11 @@ export default {
     showPayPop () {
       this.payPopOptions.isShow = true
     },
-    configSuccess(res) {
-      console.log(res);
+    configSuccess (res) {
+      console.log(res)
     },
-    configError(res) {
-      console.log(res);
+    configError (res) {
+      console.log(res)
     }
   }
 }

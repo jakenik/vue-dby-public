@@ -5,7 +5,6 @@ let getTance = () => {
     el: document.createElement('div')
   })
 }
-console.log(1)
 let LoggerView = (options = {}) => {
   let instance = getTance()
 

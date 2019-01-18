@@ -1,21 +1,23 @@
 <template>
-  <div v-show="show">
-    <div :class="modalShowClass" id="modal-11">
-      <div class="md-content">
-        <div class="md-content-h3">{{title}}</div>
-        <div>
-          <div class="logList">{{logList}}</div>
-          <!-- <div class="scroll-div-height" v-for="(item, index) in logList" :key="'logList' + index">
-            {{item}}
-          </div> -->
-          <div class="md-botton-block">
-            <button class="md-botton" @click="show = false">{{cancelText}}</button>
-            <button class="md-botton" @click="show = false">{{confirmText}}</button>
+  <transition name="show">
+    <div v-show="show">
+      <div :class="modalShowClass" id="modal-11">
+        <div class="md-content">
+          <div class="md-content-h3">{{title}}</div>
+          <div>
+            <div class="logList">{{logList}}</div>
+            <!-- <div class="scroll-div-height" v-for="(item, index) in logList" :key="'logList' + index">
+              {{item}}
+            </div> -->
+            <div class="md-botton-block">
+              <button class="md-botton" @click="show = false">{{cancelText}}</button>
+              <button class="md-botton" @click="show = false">{{confirmText}}</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script type="text/babel">
@@ -34,6 +36,11 @@ export default {
     confirmText: {
       type: String,
       default: '确定'
+    }
+  },
+  watch: {
+    logList (t, r) {
+      console.log(t, r)
     }
   },
   data () {
@@ -59,6 +66,12 @@ export default {
 </script>
 
 <style lang="scss">
+.show-enter-active, .show-leave-active {
+  transition: opacity .5s;
+}
+.show-enter, .show-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 .md-effect-11 .md-content {
   -webkit-transform: scale(2);
   -moz-transform: scale(2);

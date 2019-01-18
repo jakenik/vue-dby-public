@@ -2,6 +2,7 @@
  * 公共api
  */
 import Vue from 'vue'
+import {getType} from '../extend/helper'
 // import LoggerView from '../../packages/logger-view'
 const DbyPublic = class dbyPublic {
   constructor (sign) {
@@ -14,7 +15,7 @@ const DbyPublic = class dbyPublic {
   }
   loadData () {
     return {
-      debug: 'openLog', // 开启log的debug close关闭 openView打开在视图上 openLog打开在浏览器上
+      debug: 'openView', // 开启log的debug close关闭 openView打开在视图上 openLog打开在浏览器上
       logList: [] // log查询的所有数据
     }
   }
@@ -28,12 +29,17 @@ const DbyPublic = class dbyPublic {
     // 公共输出log方法
     let _push = (value, type) => {
       if (this.data.debug === 'close') return
+      if (getType(value, 'object')) value = JSON.stringify(value)
+      else if (getType(value, ['function', 'number'])) value = value.toString()
       let json = {
         type,
         value
       }
       this.data.logList.push(json)
-      Vue.prototype.logList = this.data.logList
+
+      Vue.set(Vue.prototype, 'logList', this.data.logList)
+      console.log(Vue)
+      // Vue.prototype.logList = this.data.logList
     }
     let callBack = {
       log: value => {
