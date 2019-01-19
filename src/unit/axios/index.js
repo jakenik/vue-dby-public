@@ -1,9 +1,71 @@
 import axios from 'axios'
-
+import { $getUrlData } from '../../extend/helper'
+import env from '../../env'
 axios.create({
   headers: { 'content-type': 'application/x-www-form-urlencoded;charset=utf8' }
 })
+axios.interceptors.request.use(config => {
+  return config
+}, err => {
+  return Promise.resolve(err)
+})
+axios.interceptors.response.use(data => {
+  return data
+}, err => {
+  let errMessage = {
+    504: '服务器出错',
+    404: '服务器接口暂无',
+    403: '权限不足,请联系管理员!',
+    401: '登录次数过多！请稍后再试'
+  }
+  let message = errMessage[err.response.status]
+  message ? err.message = message : err.message = '未知错误!'
+  return Promise.resolve(err)
+})
 const Request = class request {
+  /**
+   * 用于http请求
+   * @param {*} { path, header, data, method, succ, fail, baseURL, clog }
+   * @param path当前地址
+   * @param header请求头
+   * @param data 参数
+   * @param method 请求方式
+   * @param succ 成功
+   * @param fail 失败
+   * @param baseURL 请求环境
+   * @param noToken 需不需要携带token默认需要
+   */
+  httpRequest ({ path, header, data, method, succ, fail, baseURL, noToken }) {
+    method = method.toUpperCase()
+    let encodeData = this.encode(data)
+    if (method === 'GET') {
+      path += '?'
+      if (!noToken && this.token) path += 'token=' + this.token + '&'
+      path = path + encodeData
+    } else {
+      if (!noToken && this.token)data.token = this.token
+    }
+    axios({
+      method: method,
+      url: path,
+      data: data,
+      header: header,
+      baseURL: baseURL,
+      transformRequest: [() => {
+        return encodeData
+      }]
+    })
+      .then(res => {
+        if (res.data.succ) {
+          succ(res)
+        } else {
+          fail(res)
+        }
+      })
+      .catch(function (res) {
+        fail(res)
+      })
+  }
   encode (data) {
     let encodeData = ''
     if (data && typeof data === 'object' && !data.length) {
@@ -19,53 +81,77 @@ const Request = class request {
     return encodeData
   }
   /**
-   * 获取token
+   *登陆
+   * @param {*} {data, succ, fail}
+   * @param data 参数
+   * @param succ 成功
+   * @param fail 失败
    */
-  getToken (
+  login ({ data, succ, fail }) {
+    data.code = $getUrlData().code
+    let cSucc = res => {
+      let token = res.data.token
+      this.token = token
+      window.localStorage.setItem('token', token)
+      succ(res.data)
+    }
+    let cFail = res => {
+      fail(res)
+    }
+    this.httpRequest({ path: '/weixin/serviceAccounts/authorizationLogin', data, method: 'post', succ: cSucc, fail: cFail, baseURL: env.httpRoute })
+  }
+  /**
+   * 获取token
+   * @param {*} {data, succ, fail}
+   * @param data 参数
+   * @param succ 成功
+   * @param fail 失败
+   */
+  getToken ({
     data,
     succ,
-    fail,
-    scene,
-    specialFields,
-    salesStaffId,
-    customerSource
-  ) {
-    const storeToken = this.getStore('token')
-    const getRequestUrl = this.getRequestUrl()
-    const urlToken = getRequestUrl.token
-
+    fail
+  }) {
+    const getUrlData = $getUrlData()
+    const urlToken = getUrlData.token
     if (urlToken) {
-      if (getRequestUrl.login === 'true') {
-        this.login(getRequestUrl.code, data, succ, fail, urlToken)
-      } else {
-        data += 'token=' + encodeURIComponent(urlToken)
-        succ(data)
-        this.setStore('token', urlToken)
-        this.token = urlToken
-        return urlToken
-      }
+      this.token = urlToken
+      succ({ token: urlToken })
+      return urlToken
     } else if (this.token) {
-      data += 'token=' + encodeURIComponent(this.token)
-      succ(data)
+      succ({ token: this.token })
       return this.token
-    } else if (getRequestUrl.code) {
-      const code = getRequestUrl.code
-      this.login(
-        code,
+    } else if (getUrlData.code) {
+      this.login({
         data,
         succ,
-        fail,
-        null,
-        scene,
-        specialFields,
-        salesStaffId,
-        customerSource
-      )
+        fail
+      })
     } else {
-      // throw new Error('token is undefined!');
-
-      this.getTouristsUserInfo(storeToken, data, succ, fail, scene)
+      const storeToken = window.localStorage.getItem('token')
+      this.checkVisitor({token: storeToken, data, succ, fail})
     }
+  }
+  /**
+   * 检测token是否过期 过期就配送一个游客token
+   * @param {*} {data, succ, fail, token}
+   * @param data 参数
+   * @param succ 成功
+   * @param fail 失败
+   * @param token token
+   */
+  checkVisitor ({ token, data, succ, fail }) {
+    data.token = token
+    let cSucc = res => {
+      let token = res.data.token
+      this.token = token
+      window.localStorage.setItem('token', token)
+      succ(res.data)
+    }
+    let cFail = res => {
+      fail(res)
+    }
+    this.httpRequest({ path: '/user/registerAsVisitor', data, method: 'post', succ: cSucc, fail: cFail, baseURL: env.httpRoute })
   }
   addRequestWait (key, value) {
     // 添加请求历史
@@ -80,7 +166,6 @@ const Request = class request {
         }
       }
     }
-
     this.requestWait[key].push(value)
     return true
   }
@@ -96,161 +181,6 @@ const Request = class request {
         return true
       }
     }
-  }
-  /**
-   * 用于http请求
-   * @param {*} { path, header, data, method, succ, fail, baseURL, clog }
-   * @param path当前地址
-   * @param header请求头
-   * @param data 参数
-   * @param method 请求方式
-   * @param succ 成功
-   * @param fail 失败
-   * @param baseURL 请求环境
-   * @param clog 是否限制短时间多次请求
-   */
-  httpRequest ({ path, header, data, method, succ, fail, baseURL, clog }) {
-    let encodeData = this.encode(data)
-    if (method === 'get') {
-      path = path + '?' + encodeData
-    }
-    axios({
-      method: method,
-      url: path,
-      data: encodeData,
-      header: header,
-      baseURL: baseURL
-    })
-      .then(res => {
-        if (res.data.succ) {
-          succ(res)
-        } else {
-          fail(res)
-        }
-      })
-      .catch(function (res) {
-        fail(res)
-      })
-    // const currentSucc = res => {
-    //   method = method.toLowerCase()
-    //   let host = this.host.bffRoute
-    //   const requestWait = res
-    //   let url = host + path
-    //   if (method === 'get') {
-    //     url = url + '?' + res
-    //   }
-    //   const be = this.addRequestWait(url, requestWait)
-    //   if (clog && !be) return
-    //   axios({
-    //     method: method,
-    //     url: url,
-    //     data: res,
-    //     header: header,
-    //     baseURL: baseURL
-    //   })
-    //     .then(res => {
-    //       if (res.data.succ) {
-    //         this.removeRequestWait(url, requestWait)
-    //         succ(res)
-    //       } else {
-    //         fail(res)
-    //       }
-    //     })
-    //     .catch(function (res) {
-    //       fail(res)
-    //     })
-    // }
-    // const currentFail = res => {
-    //   fail(res)
-    // }
-    // if (typeof data === 'object') {
-    //   this.getToken(encodeData, currentSucc, currentFail)
-    // } else {
-    //   this.getToken(data, currentSucc, currentFail)
-    // }
-  }
-  /**
-   * 登录login
-   */
-  login (
-    code,
-    data,
-    succ,
-    fail,
-    token,
-    scene1,
-    specialFields,
-    salesStaffId,
-    customerSource
-  ) {
-    const host = this.host
-    const json = { code: code }
-    const scene = this.getScene()
-    const code1 = this.getStore('code')
-    if (code1) {
-      if (code1 === code) {
-        var storeToken = this.getStore('token')
-        if (storeToken) {
-          this.getTouristsUserInfo(storeToken, data, succ, fail, scene1)
-        } else {
-          fail()
-        }
-        return
-      }
-    }
-    this.setStore('code', code)
-    if (this.scene) {
-      json['scene'] = this.scene
-    } else if (scene) {
-      json['scene'] = scene
-    } else if (scene1) {
-      json['scene'] = scene1
-    }
-    if (specialFields) {
-      json['specialFields'] = specialFields
-    }
-    if (salesStaffId) {
-      if (!customerSource || customerSource !== '') {
-        customerSource = '转介绍'
-      }
-      json['customer'] = JSON.stringify({
-        customerSource: customerSource,
-        salesStaffId: salesStaffId
-      })
-    }
-    if (token) {
-      json['token'] = token
-    }
-    let encodeData = ''
-    for (const i in json) {
-      encodeData += i + '='
-      encodeData += encodeURIComponent(json[i]) + '&'
-    }
-    encodeData = encodeData.substring(encodeData, encodeData.length - 1)
-    this.$ajax
-      .post(
-        host.httpRoute + '/weixin/serviceAccounts/authorizationLogin',
-        encodeData
-      )
-      .then(res => {
-        if (res.data.succ) {
-          data += 'token=' + encodeURIComponent(res.data.token)
-          this.setStore('token', res.data.token)
-          this.token = res.data.token
-          this.setStore('authorizationFig', true)
-          succ(data)
-        } else {
-          const storeToken = this.getStore('token')
-          if (storeToken) {
-            this.getTouristsUserInfo(storeToken, data, succ, fail, scene1)
-          } else {
-            fail()
-          }
-        }
-      })
-      .catch(function (res) {
-        fail(res)
-      })
   }
 }
 export default new Request()

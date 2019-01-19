@@ -32,3 +32,51 @@ export function $getType (parame, type) {
   }
   return false
 }
+/**
+ * 获取页面url参数 无传参直接调用
+ */
+export function $getUrlData () {
+  let url = decodeURIComponent(location.href) // 获取url中"?"符后的字串
+  const index = url.indexOf('?')
+  const theRequest = {}
+  if (index !== -1) {
+    url = url.substring(index, url.length)
+    const str = url.substr(1)
+    const strs = str.split('&')
+    for (let i = 0; i < strs.length; i++) {
+      theRequest[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+    }
+  }
+  return theRequest
+}
+
+/**
+ * @export
+ * @param {检查字符串是数组还是josn} str
+ */
+export function $getStringType (str) {
+  if (str) {
+    try {
+      let type
+      JSON.parse(str).length === undefined ? type = 'object' : type = 'array'
+      return type
+    } catch (error) {
+      return false
+    }
+  }
+}
+
+export function $getStore (name) {
+  if (!name) return
+  let data = window.localStorage.getItem(name)
+  if (!data) {
+    return false
+  }
+  try {
+    const json = JSON.parse(data)
+    data = json
+  } catch (error) {
+    return error
+  }
+  return data
+}

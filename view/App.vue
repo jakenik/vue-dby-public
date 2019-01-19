@@ -3,7 +3,7 @@
     <div id="app">
       <div class="c" @click="showPayPop">点击弹出支付框</div>
       <vue-pay-pop ref="pay" :payPopOptions="payPopOptions" @inputDown="inputDown"></vue-pay-pop>
-      
+
     </div>
   </div>
 </template>
@@ -27,21 +27,21 @@ export default {
     // setTimeout(() => {
     //   Toast('好')
     // }, 1000)
-    
+
     this.$logger.info('MessageBox1')
     this.$logger.info(function () {
       console.log(11)
     })
-    setTimeout(() => {
-      try {
-        var b = a
-      } catch (error) {
-        console.log(error);
-        
-        this.$logger.error(error)
-      }
-      
-    }, 3000)
+    // setTimeout(() => {
+    //   try {
+    //     var b = a
+    //   } catch (error) {
+    //     console.log(error)
+
+    //     this.$logger.error(error)
+    //   }
+    // }, 3000)
+    // this.$request()
   },
   methods: {
     inputDown (val) {

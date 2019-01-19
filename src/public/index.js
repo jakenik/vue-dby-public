@@ -1,7 +1,7 @@
 /**
  * 公共api
  */
-import Vue from 'vue'
+// import Vue from 'vue'
 import {$getType} from '../extend/helper'
 import LoggerView from '../../packages/logger-view'
 const DbyPublic = class dbyPublic {
@@ -14,7 +14,6 @@ const DbyPublic = class dbyPublic {
       this[i] = data[i]
     }
     this.apiRequire(sign)
-    Vue.prototype.logList = []
   }
   loadData () {
     return {
@@ -68,9 +67,6 @@ const DbyPublic = class dbyPublic {
       default:
         return callBack
     }
-  }
-  isArray (obj) {
-    return obj && typeof obj === 'object' && obj.length
   }
 }
 export default DbyPublic
