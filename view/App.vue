@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <router-view/>
     <div id="app">
       <div class="c" @click="showPayPop">点击弹出支付框</div>
       <vue-pay-pop ref="pay" :payPopOptions="payPopOptions" @inputDown="inputDown"></vue-pay-pop>
@@ -28,19 +29,16 @@ export default {
     //   Toast('好')
     // }, 1000)
 
-    this.$logger.info('MessageBox1')
-    this.$logger.info(function () {
-      console.log(11)
-    })
-    // setTimeout(() => {
-    //   try {
-    //     var b = a
-    //   } catch (error) {
-    //     console.log(error)
-
-    //     this.$logger.error(error)
-    //   }
-    // }, 3000)
+    this.$logger.info('MessageBox1','2222', '[]','p[{}1241',1)
+    this.$logger.info(this.$wxApi)
+    
+    setTimeout(() => {
+      try {
+        var b = a
+      } catch (error) {
+        this.$logger.error(error)
+      }
+    }, 3000)
     // this.$request()
   },
   methods: {

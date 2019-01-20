@@ -1,3 +1,11 @@
+/*
+ * @Author: jake
+ * @Date: 2019-01-20 11:53:58
+ * @Last Modified by: jake
+ * @Last Modified time: 2019-01-20 21:46:31
+ * 请求封装
+ */
+
 import axios from 'axios'
 import { $getUrlData } from '../../extend/helper'
 import env from '../../env'
@@ -23,6 +31,9 @@ axios.interceptors.response.use(data => {
   return Promise.resolve(err)
 })
 const Request = class request {
+  constructor () {
+    this.requestWait = {}
+  }
   /**
    * 用于http请求
    * @param {*} { path, header, data, method, succ, fail, baseURL, clog }
@@ -35,7 +46,7 @@ const Request = class request {
    * @param baseURL 请求环境
    * @param noToken 需不需要携带token默认需要
    */
-  httpRequest ({ path, header, data, method, succ, fail, baseURL, noToken }) {
+  httpRequest ({ path, header = {}, data = {}, method, succ, fail, baseURL, noToken }) {
     method = method.toUpperCase()
     let encodeData = this.encode(data)
     if (method === 'GET') {
@@ -87,18 +98,20 @@ const Request = class request {
    * @param succ 成功
    * @param fail 失败
    */
-  login ({ data, succ, fail }) {
+  login ({ data = {}, succ, fail }) {
     data.code = $getUrlData().code
+    let path = '/weixin/serviceAccounts/authorizationLogin'
     let cSucc = res => {
       let token = res.data.token
       this.token = token
       window.localStorage.setItem('token', token)
-      succ(res.data)
+      this.httpUsr(path, res.data, 'succ')
     }
     let cFail = res => {
-      fail(res)
+      this.httpUsr(path, res, 'fail')
     }
-    this.httpRequest({ path: '/weixin/serviceAccounts/authorizationLogin', data, method: 'post', succ: cSucc, fail: cFail, baseURL: env.httpRoute })
+    if (this.httpSave(path, {succ, fail})) return
+    this.httpRequest({ path: path, data, method: 'post', succ: cSucc, fail: cFail, baseURL: env.httpRoute })
   }
   /**
    * 获取token
@@ -108,7 +121,7 @@ const Request = class request {
    * @param fail 失败
    */
   getToken ({
-    data,
+    data = {},
     succ,
     fail
   }) {
@@ -140,47 +153,39 @@ const Request = class request {
    * @param fail 失败
    * @param token token
    */
-  checkVisitor ({ token, data, succ, fail }) {
+  checkVisitor ({ token, data = {}, succ, fail }) {
     data.token = token
+    let path = '/user/registerAsVisitor'
     let cSucc = res => {
       let token = res.data.token
       this.token = token
       window.localStorage.setItem('token', token)
-      succ(res.data)
+      this.httpUsr(path, res.data, 'succ')
     }
     let cFail = res => {
-      fail(res)
+      this.httpUsr(path, res, 'fail')
     }
-    this.httpRequest({ path: '/user/registerAsVisitor', data, method: 'post', succ: cSucc, fail: cFail, baseURL: env.httpRoute })
-  }
-  addRequestWait (key, value) {
-    // 添加请求历史
-    if (!key || !value) return false
-    if (!this.requestWait[key]) {
-      this.requestWait[key] = []
-    } else {
-      for (let i = 0; i < this.requestWait[key].length; i++) {
-        const curValue = this.requestWait[key][i]
-        if (value === curValue) {
-          return false
-        }
-      }
-    }
-    this.requestWait[key].push(value)
-    return true
+    if (!this.httpSave(path, {succ, fail})) return
+    this.httpRequest({ path: path, data, method: 'post', succ: cSucc, fail: cFail, baseURL: env.httpRoute })
   }
 
-  removeRequestWait (key, value) {
-    // 删除请求历史
-    if (this.requestWait[key].length === 0) return false
-    for (let i = 0; i < this.requestWait[key].length; i++) {
-      const curValue = this.requestWait[key][i]
-      const curIndex = i
-      if (value === curValue) {
-        this.requestWait[key].splice(curIndex, 1)
-        return true
-      }
+  httpSave (path, callBack) {
+    let first = false
+    if (!path || !callBack) return first
+    if (!this.requestWait[path]) {
+      this.requestWait[path] = []
+      first = true
+    } else { first = false }
+    this.requestWait[path].push(callBack)
+    return first
+  }
+  httpUsr (path, res, key) {
+    if (!path) return false
+    for (let i = 0; i < this.requestWait[path].length; i++) {
+      const val = this.requestWait[path][i][key]
+      val(res)
     }
+    delete this.requestWait[path]
   }
 }
 export default new Request()

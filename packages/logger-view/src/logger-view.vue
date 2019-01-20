@@ -8,12 +8,9 @@
             <div>
               <div class="dby-logView-logList" >
                 <div :class="'dby-logView-' + item.type" v-for="(item, index) in content" :key="'content' + index">
-                  {{item.value}}
+                  <span>{{item.value}}</span>
                 </div>
               </div>
-              <!-- <div class="scroll-div-height" v-for="(item, index) in logList" :key="'logList' + index">
-                {{item}}
-              </div> -->
               <div class="dby-logView-botton-block">
                 <button class="dby-logView-botton" @click="show = false">{{cancelText}}</button>
                 <button class="dby-logView-botton" @click="show = false">{{confirmText}}</button>
@@ -45,29 +42,11 @@ export default {
       default: '确定'
     }
   },
-  watch: {
-    logList (t, r) {
-      console.log(t, r)
-    }
-  },
   data () {
     return {
       show: null,
       logList: null
     }
-  },
-  methods: {
-
-  },
-  computed: {
-    modalShowClass: function () {
-      let modal = ['dby-logView-modal', 'dby-logView-effect-11']
-      if (this.show) modal.push('dby-logView-show')
-      return modal.join(' ')
-    }
-  },
-  mounted: function () {
-    console.log(this.content)
   }
 }
 </script>
@@ -101,7 +80,7 @@ export default {
   position: fixed;
   top: 50%;
   left: 50%;
-  width: 50%;
+  width: 80%;
   max-width: 630 * 2 * $unit;
   min-width: 320 * 2 * $unit;
   height: auto;
@@ -110,6 +89,7 @@ export default {
   -moz-transform: translateX(-50%) translateY(-50%);
   -ms-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
+  background: #fff;
 }
 .dby-logView-content-h3 {
   margin: 0;

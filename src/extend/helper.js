@@ -1,3 +1,10 @@
+/*
+ * @Author: jake
+ * @Date: 2019-01-20 11:51:30
+ * @Last Modified by: jake
+ * @Last Modified time: 2019-01-20 15:18:21
+ * 工具类型的封装都放在这里
+ */
 /**
  * @export
  * @param {查询对象} object
@@ -79,4 +86,17 @@ export function $getStore (name) {
     return error
   }
   return data
+}
+
+export function $getTime (mode) {
+  let date = new Date()
+  let year = date.getFullYear()
+  let month = date.getMonth() + 1
+  let day = date.getDate()
+  switch (mode) {
+    case 'YYYY-MM-DD':
+      return year + '-' + month + '-' + day
+    default:
+      break
+  }
 }

@@ -1,7 +1,11 @@
-/**
- * 用于页面适配
- * @param  { width表示效果图的尺寸} width
+/*
+ * @Author: jake
+ * @Date: 2019-01-20 11:54:28
+ * @Last Modified by:   jake
+ * @Last Modified time: 2019-01-20 11:54:28
+ * 页面适配
  */
+
 export default{
   fontFun: function (width) {
     var winWidth = document.documentElement.clientWidth// 网页的可视宽度

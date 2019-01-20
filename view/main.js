@@ -1,13 +1,16 @@
 import Vue from 'vue'
 import App from './App.vue'
-import { PayPop, ReponeFont, DbyPublic, Request } from '../src/index'
+import router from './router'
+import { PayPop, ReponeFont, Request, Logger, WxApi, ErrorHandler } from '../src/index'
 ReponeFont.init()
 Vue.component(PayPop.name, PayPop)
-Vue.prototype.$dbyPublic = new DbyPublic(['wxApi'])
 Vue.prototype.$request = Request
-Vue.prototype.$logger = Vue.prototype.$dbyPublic.logger()
+Vue.prototype.$logger = Logger
+Vue.prototype.$wxApi = WxApi
+Vue.config.errorHandler = ErrorHandler
 // eslint-disable-next-line no-new
 new Vue({
   el: '#app',
+  router,
   render: h => h(App)
 })

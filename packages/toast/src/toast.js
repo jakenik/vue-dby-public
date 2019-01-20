@@ -43,8 +43,6 @@ let Toast = (options = {}) => {
   instance.position = options.position || 'middle'
   instance.className = options.className || ''
   instance.iconClass = options.iconClass || ''
-  console.log(instance)
-
   document.body.appendChild(instance.$el)
   Vue.nextTick(function () {
     instance.visible = true

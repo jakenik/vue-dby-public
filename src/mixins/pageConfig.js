@@ -1,7 +1,11 @@
-/**
+/*
+ * @Author: jake
+ * @Date: 2019-01-20 11:53:11
+ * @Last Modified by: jake
+ * @Last Modified time: 2019-01-20 22:23:43
  * 页面初始化时添加页面配置
  */
-const request = require('../unit/axios/index').default
+const request = require('../service/axios/index').default
 const env = require('../env').default
 export default {
   created () {
@@ -10,7 +14,7 @@ export default {
       succ: () => {
         request.httpRequest({ path: '/page/pageViewData',
           data: {
-            pageName: '/plan'
+            pageName: this.$route.path
           },
           method: 'get',
           succ: (res) => {
