@@ -2,7 +2,7 @@
  * @Author: jake
  * @Date: 2019-01-20 11:53:58
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-20 21:46:31
+ * @Last Modified time: 2019-01-21 15:33:30
  * 请求封装
  */
 
@@ -48,14 +48,17 @@ const Request = class request {
    */
   httpRequest ({ path, header = {}, data = {}, method, succ, fail, baseURL, noToken }) {
     method = method.toUpperCase()
-    let encodeData = this.encode(data)
+    let encodeData
     if (method === 'GET') {
+      encodeData = this.encode(data)
       path += '?'
       if (!noToken && this.token) path += 'token=' + this.token + '&'
       path = path + encodeData
     } else {
       if (!noToken && this.token)data.token = this.token
+      encodeData = this.encode(data)
     }
+
     axios({
       method: method,
       url: path,
@@ -111,7 +114,7 @@ const Request = class request {
       this.httpUsr(path, res, 'fail')
     }
     if (this.httpSave(path, {succ, fail})) return
-    this.httpRequest({ path: path, data, method: 'post', succ: cSucc, fail: cFail, baseURL: env.httpRoute })
+    this.httpRequest({ path: path, data, method: 'post', succ: cSucc, fail: cFail, baseURL: env.apiH5 })
   }
   /**
    * 获取token
@@ -166,7 +169,7 @@ const Request = class request {
       this.httpUsr(path, res, 'fail')
     }
     if (!this.httpSave(path, {succ, fail})) return
-    this.httpRequest({ path: path, data, method: 'post', succ: cSucc, fail: cFail, baseURL: env.httpRoute })
+    this.httpRequest({ path: path, data, method: 'post', succ: cSucc, fail: cFail, baseURL: env.apiH5 })
   }
 
   httpSave (path, callBack) {

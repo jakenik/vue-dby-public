@@ -2,7 +2,7 @@
  * @Author: jake
  * @Date: 2019-01-20 11:52:22
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-20 21:15:26
+ * @Last Modified time: 2019-01-22 15:59:09
  * 对log进行封装
  */
 
@@ -20,12 +20,13 @@ const Logger = class logger {
   }
   loadData () {
     return {
-      debug: 'openView', // 开启log的debug close关闭 openView打开在视图上 openLog打开在浏览器上
+      debug: null, // 开启log的debug close关闭 openView打开在视图上 openLog打开在浏览器上
       logList: [] // log查询的所有数据
     }
   }
-  logger () {
+  logger (debug) {
     // 公共输出log方法
+    if (debug) this.debug = debug
     let that = this
     let _push = function (type, array) {
       if (that.debug === 'close') return
@@ -41,6 +42,7 @@ const Logger = class logger {
         value
       }
       that.logList.push(json)
+      if (!that.debug) return
       LoggerView({
         title: '控制台',
         content: that.logList,
@@ -72,4 +74,4 @@ const Logger = class logger {
     }
   }
 }
-export default new Logger().logger()
+export default new Logger()

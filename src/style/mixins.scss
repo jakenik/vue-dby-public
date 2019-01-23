@@ -20,3 +20,48 @@ $unit: 1rem/37.5!global; //单位转换
   -webkit-transition: $value; /* Safari 和 Chrome */
   -o-transition: $value; /* Opera */
 }
+
+@mixin opacity($opacity){
+  -moz-opacity:$opacity; /* 老版Mozilla */
+  -khtml-opacity:$opacity; /* 老版Safari */
+  opacity: $opacity; /* 支持opacity的浏览器*/
+}
+
+@mixin scroll(){
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+/*全局样式*/
+.message-fade-enter-active {
+  -webkit-animation: message-fade-in 0.3s;
+  animation: message-fade-in 0.3s;
+  }
+  .message-fade-leave-active {
+    -webkit-animation: message-fade-out 0.3s;
+    animation: message-fade-out 0.3s;
+  }
+  @keyframes message-fade-in {
+    0% {
+      -webkit-transform: translate3d(0, -20px, 0);
+      transform: translate3d(0, -20px, 0);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+  }
+  @keyframes message-fade-out {
+    0% {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: translate3d(0, -20px, 0);
+      transform: translate3d(0, -20px, 0);
+      opacity: 0;
+    }
+  }
