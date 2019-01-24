@@ -8,13 +8,12 @@
             <div >
               <div class="dby-logView-logList" >
                 <div class="dby-logView-content-block">
-                  <div :class="'dby-logView-' + item.type" v-for="(item, index) in content" :key="'content' + index">
-                      <span class="dby-logView-content-span">{{item.value}}</span>
+                  <div :class="['dby-logView-' + item.type,'dby-logView-content-span']" v-for="(item, index) in content" :key="'content' + index">
+                      {{item.value}}
                   </div>
                 </div>
               </div>
               <div class="dby-logView-botton-block">
-                <!-- <button class="dby-logView-botton" @click="show = false">{{cancelText}}</button> -->
                 <div class="dby-logView-botton" @click="show = false">{{confirmText}}</div>
               </div>
             </div>
@@ -63,15 +62,15 @@ export default {
 <style lang="scss" >
 .show-enter-active, .show-leave-active {
   transition: opacity .3s;
+  -webkit-transition: opacity .3s;
 }
 .show-enter, .show-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
+  @include opacity(0);
 }
 .dby-logView-content{
   color: #fff;
   background: #fff;
   position: relative;
-  
   margin: 0 auto;
 }
 
@@ -121,7 +120,6 @@ export default {
 }
 .dby-logView-logList{
   height: 800 * $unit;
-  overflow-y:auto;
   @include scroll();
   padding: 15 * $unit 40 * $unit 30 * $unit;
   margin: 0;
@@ -148,22 +146,23 @@ export default {
   border-top: 1px solid #ebeef5;
   border-left: 1px solid #ebeef5;
   border-right: 1px solid #ebeef5;
+  font-family: "微软雅黑";
 }
 .dby-logView-content-block{
   border-bottom: 1px solid #ebeef5;
 }
 .dby-logView-overlay{
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    background: #000;
-    @include opacity(0.5);
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background: #000;
+  @include opacity(0.5);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
 }
 .dby-logView-bug-svg{
   width: 30 * $unit;

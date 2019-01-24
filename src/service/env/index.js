@@ -2,7 +2,7 @@
  * @Author: jake
  * @Date: 2019-01-21 11:50:33
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-22 15:31:27
+ * @Last Modified time: 2019-01-24 11:03:13
  * 配置编译环境和线上环境之间的切换
  */
 import { $getUrlData } from '../extend/helper'
@@ -24,7 +24,7 @@ env.protocol = 'https://'
 env.apiBffAdmin = 'https://<host>/api_bff_admin'.replace('<host>', env.host).replace('<version>', env.version)
 env.apiBff = 'https://<host>/api_bff'.replace('<host>', env.host).replace('<version>', env.version)
 env.apiChat = 'https://<host>/api_chat'.replace('<host>', env.host).replace('<version>', env.version)
-env.apiH5wss = 'wss://<host>/api_h5/websocket/'.replace('<host>', env.host).replace('<version>', env.version)
+env.apiH5Wss = 'wss://<host>/api_h5/websocket/'.replace('<host>', env.host).replace('<version>', env.version)
 env.apiH5 = 'https://<host>/api_h5'.replace('<host>', env.host).replace('<version>', env.version)
 env.res = 'https://<host>/res'.replace('<host>', env.host)
 env.h5Official = 'https://<host>/h5_official/#'.replace('<host>', env.host).replace('<version>', env.version)

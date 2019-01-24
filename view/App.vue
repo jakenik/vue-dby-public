@@ -17,19 +17,14 @@
       <div>111</div>
       <circle-view></circle-view>
       <radio v-model="radio" label="1" @change="changeRadio">备选项1</radio>
-      <radio v-model="radio" label="2">备选项2</radio>
-      <radio-beat>
-        <checked>1</checked>
-        <uncheck>1</uncheck>
-      </radio-beat>
+      <radio v-model="radio" label="2" disabled>备选项2</radio>
+      <checkbox v-model="checked">备选项</checkbox>
     </div>
   </div>
 </template>
 
 <script>
-import '../src/style/common.scss'
-import { PageConfig, MessageBox, Toast } from '../src/index'
-import messageBox from '../src/packages/message-box/src/message-box'
+// import { PageConfig, MessageBox, Toast } from '../src/index'
 export default {
   name: 'app',
   data () {
@@ -41,13 +36,14 @@ export default {
         title: '标题',
         content: '内容啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊'
       },
-      radio: null
+      radio: null,
+      checked: null
     }
   },
   components: {
-    messageBox
+
   },
-  mixins: [PageConfig],
+  // mixins: [PageConfig],
   mounted: function () {
     this.$logger.info('MessageBox1', '2222', '[]', 'p[{}1241', 1)
     this.$logger.info(this.$wxApi)
@@ -63,25 +59,26 @@ export default {
           }})
       },
       fail () {}})
-    this.messageBoxOpen()
-    setTimeout(()=>{
-      MessageBox({
-        cancelText: '取消3',
-        confirmText: '确定4',
-        messageContent: {
-          title: '标题5',
-          content: '表哦提666'
-        },
-        succ() {
-          console.log(1);
+    // this.messageBoxOpen()
+    // setTimeout(()=>{
+    //   MessageBox({
+    //     cancelText: '取消3',
+    //     confirmText: '确定4',
+    //     messageContent: {
+    //       title: '标题5',
+    //       content: '表哦提666'
+    //     },
+    //     succ() {
+    //       console.log(1);
 
-        },
-        fail(){
-          console.log(0);
-        }
-      }).open()
-    }, 3000)
-    Toast("1111")
+    //     },
+    //     fail(){
+    //       console.log(0);
+    //     }
+    //   }).open()
+    // }, 3000)
+    // Toast('1111')
+    this.$webSocket.websocketInit()
   },
   methods: {
     inputDown (val) {
@@ -105,7 +102,7 @@ export default {
     onClickBottomModal () {
       this.$refs.bottomModal.open()
     },
-    messageBoxOpen() {
+    messageBoxOpen () {
       let m = MessageBox({
         cancelText: '取消1',
         confirmText: '确定2',
@@ -113,19 +110,20 @@ export default {
           title: '标题1',
           content: '表哦提'
         },
-        succ() {
-          console.log(1);
-
+        succ () {
+          console.log(1)
         },
-        fail(){
-          console.log(0);
+        fail () {
+          console.log(0)
         }
       }).open()
-      setTimeout(()=>{ m.close()},2000)
+      setTimeout(() => { m.close() }, 2000)
     },
-    changeRadio() {
-      console.log(this.radio);
-
+    changeRadio () {
+      console.log(this.radio)
+    },
+    onChangecheckList () {
+      console.log(111)
     }
   }
 }

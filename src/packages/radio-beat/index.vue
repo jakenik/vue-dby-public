@@ -1,10 +1,11 @@
 <template>
   <div class="like" @click="onClickLike">
-    1211
-    <!-- <img  src="../../images/comment/like01.png" > -->
-    <slot name="checked" class="likeImg" v-if="!likeStatus[index]"></slot>
-    <slot name="uncheck" :class="['likeImg2','sc']" v-else></slot>
-    <!-- <img  src="../../images/comment/like02.png" > -->
+    <div class="likeImg" v-if="!likeStatus[index]">
+      <slot name="checked" ></slot>
+    </div>
+    <div  :class="['likeImg2','sc']" v-else>
+      <slot name="uncheck"></slot>
+    </div>
   </div>
 </template>
 <script lang="babel">
@@ -18,32 +19,6 @@ export default {
   },
   methods: {
     onClickLike(index, item) {
-      const {
-        id
-      } = item;
-      if (!this.likeStatus[index]) {
-        const succ = res => {
-          item.praiseCount ++;
-          this.$set(this.likeStatus, [index], true);
-        }
-        const fail = res => {
-
-        }
-        this.dbyPublic.httpRequest('/user/getParseCount', {}, {
-          id
-        }, "post", succ, fail, this.dbyPublic.host.httpRoute);
-      } else {
-        const succ2 = res => {
-          item.praiseCount --;
-          this.$set(this.likeStatus, [index], false);
-        }
-        const fail2 = res => {
-
-        }
-        this.dbyPublic.httpRequest('/user/cancelParseCount', {}, {
-          id
-        }, "post", succ2, fail2, this.dbyPublic.host.httpRoute);
-      }
 
     }
   }
