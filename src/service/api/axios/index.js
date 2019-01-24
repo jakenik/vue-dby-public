@@ -2,7 +2,7 @@
  * @Author: jake
  * @Date: 2019-01-20 11:53:58
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-21 15:33:30
+ * @Last Modified time: 2019-01-24 15:12:18
  * 请求封装
  */
 
@@ -70,7 +70,7 @@ const Request = class request {
       }]
     })
       .then(res => {
-        if (res.data.succ) {
+        if (res.data.succ || res.data.dbyData) {
           succ(res)
         } else {
           fail(res)

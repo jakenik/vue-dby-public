@@ -24,7 +24,7 @@
 </template>
 
 <script>
-// import { PageConfig, MessageBox, Toast } from '../src/index'
+import { PageConfig, MessageBox, Toast } from '../src/index'
 export default {
   name: 'app',
   data () {
@@ -59,7 +59,7 @@ export default {
           }})
       },
       fail () {}})
-    // this.messageBoxOpen()
+    this.messageBoxOpen()
     // setTimeout(()=>{
     //   MessageBox({
     //     cancelText: '取消3',
@@ -116,7 +116,7 @@ export default {
         fail () {
           console.log(0)
         }
-      }).open()
+      })
       setTimeout(() => { m.close() }, 2000)
     },
     changeRadio () {
