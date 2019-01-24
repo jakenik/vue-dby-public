@@ -2,7 +2,7 @@
  * @Author: jake
  * @Date: 2019-01-20 11:51:30
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-20 15:18:21
+ * @Last Modified time: 2019-01-24 17:56:22
  * 工具类型的封装都放在这里
  */
 /**
@@ -10,7 +10,7 @@
  * @param {查询对象} object
  * @returns
  */
-export function $type (object) {
+export function type (object) {
   let class2type = {
     '[object Boolean]': 'boolean',
     '[object Number]': 'number',
@@ -30,19 +30,19 @@ export function $type (object) {
  * @param {是否包含类型} type
  * @returns
  */
-export function $getType (parame, type) {
-  switch (typeof type) {
+export function getType (parame, _type) {
+  switch (typeof _type) {
     case 'string':
-      return $type(parame) === type
+      return type(parame) === _type
     case 'object':
-      return type.indexOf($type(parame)) !== -1
+      return _type.indexOf(type(parame)) !== -1
   }
   return false
 }
 /**
  * 获取页面url参数 无传参直接调用
  */
-export function $getUrlData () {
+export function getUrlData () {
   let url = decodeURIComponent(location.href) // 获取url中"?"符后的字串
   const index = url.indexOf('?')
   const theRequest = {}
@@ -61,7 +61,7 @@ export function $getUrlData () {
  * @export
  * @param {检查字符串是数组还是josn} str
  */
-export function $getStringType (str) {
+export function getStringType (str) {
   if (str) {
     try {
       let type
@@ -73,22 +73,36 @@ export function $getStringType (str) {
   }
 }
 
-export function $getStore (name) {
-  if (!name) return
+export function getHash () {
+  let hash = window.location.hash
+  let index = hash.indexOf('?')
+  if (index === -1) index = hash.length
+  return hash.substring(hash.indexOf('#') + 1, index)
+}
+
+export function getStore (name) {
+  if (!name) name = getHash()
   let data = window.localStorage.getItem(name)
   if (!data) {
     return false
   }
   try {
-    const json = JSON.parse(data)
-    data = json
+    data = JSON.parse(data)
   } catch (error) {
-    return error
+    return data
   }
   return data
 }
 
-export function $getTime (mode) {
+export function setStore (content) {
+  let name = getHash()
+  if (typeof content !== 'string') {
+    content = JSON.stringify(content)
+  }
+  window.localStorage.setItem(name, content)
+}
+
+export function getTime (mode) {
   let date = new Date()
   let year = date.getFullYear()
   let month = date.getMonth() + 1

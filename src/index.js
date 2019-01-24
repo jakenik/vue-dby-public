@@ -16,7 +16,8 @@ import CircleView from './packages/circle-view/index'
 import Radio from './packages/radio/index'
 import Checkbox from './packages/checkbox/index'
 
-const version = '2.1.2'
+const Helper = require('./service/extend/helper')
+const version = '2.1.4'
 export {
   version,
   ReponeFont,
@@ -26,6 +27,7 @@ export {
   WxApi,
   SocketApi,
   ErrorHandler,
+  Helper,
   Env,
   // PayPop,
   Toast,

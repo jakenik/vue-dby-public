@@ -1,12 +1,12 @@
 import request from '../api/axios/index'
-import { $getTime } from '../extend/helper'
+import { getTime } from '../extend/helper'
 let $logger = require('../extend/logger').default
 $logger = $logger.logger()
 class ErrorHandler {
   errorHandler (error, vm) {
     console.error(error)
     let token = null
-    let time = $getTime('YYYY-MM-DD')
+    let time = getTime('YYYY-MM-DD')
     request.getToken({
       succ: (res) => {
         token = res.token

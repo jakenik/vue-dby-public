@@ -2,24 +2,24 @@
  * @Author: jake
  * @Date: 2019-01-21 11:50:33
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-24 11:03:13
+ * @Last Modified time: 2019-01-24 17:44:51
  * 配置编译环境和线上环境之间的切换
  */
-import { $getUrlData } from '../extend/helper'
+import { getUrlData } from '../extend/helper'
 const env = {
   version: 'prod/' // 当前版本
 }
-const urlJson = $getUrlData()
+const urlJson = getUrlData()
 
 if (urlJson.apiver) {
   env.version = urlJson.apiver
 }
 env.host = window.location.host
 env.protocol = document.location.protocol + '//'
-// if (process.env.NODE_ENV === 'development') {
-env.host = 'admin.91duobaoyu.com'
-env.protocol = 'https://'
-// }
+if (process.env.NODE_ENV === 'development' || window.localStorage.getItem('NODE_ENV') === 'true') {
+  env.host = 'admin.91duobaoyu.com'
+  env.protocol = 'https://'
+}
 
 env.apiBffAdmin = 'https://<host>/api_bff_admin'.replace('<host>', env.host).replace('<version>', env.version)
 env.apiBff = 'https://<host>/api_bff'.replace('<host>', env.host).replace('<version>', env.version)

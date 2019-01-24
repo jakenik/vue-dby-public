@@ -2,12 +2,12 @@
  * @Author: jake
  * @Date: 2019-01-20 11:53:58
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-24 15:12:18
+ * @Last Modified time: 2019-01-24 17:47:23
  * 请求封装
  */
 
 import axios from 'axios'
-import { $getUrlData } from '../../extend/helper'
+import { getUrlData } from '../../extend/helper'
 import env from '../../env'
 axios.create({
   headers: { 'content-type': 'application/x-www-form-urlencoded;charset=utf8' }
@@ -102,7 +102,7 @@ const Request = class request {
    * @param fail 失败
    */
   login ({ data = {}, succ, fail }) {
-    data.code = $getUrlData().code
+    data.code = getUrlData().code
     let path = '/weixin/serviceAccounts/authorizationLogin'
     let cSucc = res => {
       let token = res.data.token
@@ -128,8 +128,7 @@ const Request = class request {
     succ,
     fail
   }) {
-    const getUrlData = $getUrlData()
-    const urlToken = getUrlData.token
+    const urlToken = getUrlData().token
     if (urlToken) {
       this.token = urlToken
       succ({ token: urlToken })

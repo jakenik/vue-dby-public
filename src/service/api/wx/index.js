@@ -2,16 +2,16 @@
  * @Author: jake
  * @Date: 2019-01-20 11:54:48
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-24 16:46:13
+ * @Last Modified time: 2019-01-24 17:44:44
  * 微信JSSDK封装
  */
 // import $logger from '../../extend/logger'
 import $request from '../axios/index'
-import { $getUrlData } from '../../extend/helper'
+import { getUrlData } from '../../extend/helper'
 import env from '../../env'
 const wx = window.wx
 let $logger = require('../../extend/logger').default
-$logger = $logger.logger('openLog')
+$logger = $logger.logger()
 const WxApi = class WxApi {
   constructor () {
     if (!wx) return $logger.error('请引入JSSDK')
@@ -244,7 +244,7 @@ const WxApi = class WxApi {
       let value = res[path]
       if (!value) return fail({ errorText: '没有该页面配置' })
       let { content, imgUrl, shareUrl, title } = value
-      let version = $getUrlData().version
+      let version = getUrlData().version
       if (version) {
         shareUrl = shareUrl
           .replace('<version>', version)

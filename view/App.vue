@@ -58,6 +58,9 @@ export default {
           }})
       },
       fail () {}})
+    this.$helper.setStore({'asuifjaisdiao': 111})
+    console.log(this.$helper.getStore())
+
     this.messageBoxOpen()
     // setTimeout(()=>{
     //   MessageBox({

@@ -1,6 +1,6 @@
 <template>
   <transition name="message-fade">
-    <div v-if="visible" id="dby-message-box" @click.self="close">
+    <div v-if="visible" id="dby-message-box" @click.self="fail();close()">
       <div class="dby-message-box-body">
         <div v-if="messageContent">
           <div class="dby-message-box-title" >{{messageContent.title}}</div>

@@ -2,11 +2,11 @@
  * @Author: jake
  * @Date: 2019-01-20 11:52:22
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-24 16:40:31
+ * @Last Modified time: 2019-01-24 17:45:03
  * 对log进行封装
  */
 
-import {$getType} from './helper'
+import {getType} from './helper'
 import LoggerView from '../../packages/logger-view'
 const Logger = class logger {
   constructor () {
@@ -33,7 +33,7 @@ const Logger = class logger {
       let value = []
       for (let index = 0; index < array.length; index++) {
         let element = array[index]
-        if ($getType(element, ['error'])) element = element.toString()
+        if (getType(element, ['error'])) element = element.toString()
         value.push(element)
       }
       value = JSON.stringify(value).replace(/^\[|\]$/g, '')
