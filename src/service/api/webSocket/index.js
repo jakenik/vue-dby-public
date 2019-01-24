@@ -2,13 +2,13 @@
  * @Author: jake
  * @Date: 2019-01-24 10:25:52
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-24 11:07:26
+ * @Last Modified time: 2019-01-24 16:46:23
  * websocket封装
  */
 const env = require('../../env').default
 const $request = require('../axios/index').default
 let $logger = require('../../extend/logger').default
-$logger = $logger.logger()
+$logger = $logger.logger('openLog')
 const SocketApi = class SocketApi {
   constructor () {
     let data = this.data()

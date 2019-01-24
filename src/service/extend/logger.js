@@ -2,7 +2,7 @@
  * @Author: jake
  * @Date: 2019-01-20 11:52:22
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-22 15:59:09
+ * @Last Modified time: 2019-01-24 16:40:31
  * 对log进行封装
  */
 
@@ -43,12 +43,13 @@ const Logger = class logger {
       }
       that.logList.push(json)
       if (!that.debug) return
-      LoggerView({
+      let log = LoggerView({
         title: '控制台',
         content: that.logList,
         success: () => {},
         firstShow: false
       })
+      that.debug === 'openView' ? log.open() : log.close()
     }
     let callBack = {
       log () {

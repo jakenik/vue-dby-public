@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="load">
     <transition name="show">
       <div v-show="show && content">
         <div class="dby-logView-modal" >
@@ -53,7 +53,7 @@ export default {
   data () {
     return {
       show: null,
-      logList: null
+      load: null
     }
   }
 }

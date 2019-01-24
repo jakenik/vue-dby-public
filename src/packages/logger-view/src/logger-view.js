@@ -3,6 +3,12 @@ let LoggerViewConstructor = Vue.extend(require('./logger-view.vue').default)
 let instance = new LoggerViewConstructor({
   el: document.createElement('div')
 })
+LoggerViewConstructor.prototype.open = function () {
+  instance.load = true
+}
+LoggerViewConstructor.prototype.close = function () {
+  instance.load = false
+}
 let LoggerView = (options = {}) => {
   instance.content = options.content || []
   if (instance.show !== null) return instance

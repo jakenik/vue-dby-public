@@ -2,7 +2,7 @@
  * @Author: jake
  * @Date: 2019-01-20 11:54:48
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-22 15:54:11
+ * @Last Modified time: 2019-01-24 16:46:13
  * 微信JSSDK封装
  */
 // import $logger from '../../extend/logger'
@@ -11,7 +11,7 @@ import { $getUrlData } from '../../extend/helper'
 import env from '../../env'
 const wx = window.wx
 let $logger = require('../../extend/logger').default
-$logger = $logger.logger()
+$logger = $logger.logger('openLog')
 const WxApi = class WxApi {
   constructor () {
     if (!wx) return $logger.error('请引入JSSDK')

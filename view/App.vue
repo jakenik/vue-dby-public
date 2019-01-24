@@ -5,7 +5,6 @@
       <div class="c" @click="showPayPop">点击弹出支付框</div>
       <div @click="onClickBottomModal">点击弹出底部弹窗</div>
       <div @click="$refs.bottomModalcase.open()">点击弹出带框弹窗</div>
-      <vue-pay-pop ref="pay" :payPopOptions="payPopOptions" @inputDown="inputDown"></vue-pay-pop>
       <message-bottom ref="bottomModal">
         <div>你好</div>
         <div>我是插槽</div>
@@ -48,7 +47,7 @@ export default {
     this.$logger.info('MessageBox1', '2222', '[]', 'p[{}1241', 1)
     this.$logger.info(this.$wxApi)
     this.$wxApi.wxConfig({source: '多保鱼服务号',
-      debug: false,
+      debug: true,
       succ: () => {
         this.$wxApi.wxPageInitShare({path: this.$route.path,
           succ (res) {
@@ -104,17 +103,9 @@ export default {
     },
     messageBoxOpen () {
       let m = MessageBox({
-        cancelText: '取消1',
-        confirmText: '确定2',
         messageContent: {
           title: '标题1',
           content: '表哦提'
-        },
-        succ () {
-          console.log(1)
-        },
-        fail () {
-          console.log(0)
         }
       })
       setTimeout(() => { m.close() }, 2000)

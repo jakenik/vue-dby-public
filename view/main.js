@@ -9,7 +9,7 @@ Vue.component(CircleView.name, CircleView)
 Vue.component(Radio.name, Radio)
 Vue.component(Checkbox.name, Checkbox)
 Vue.prototype.$request = Request
-Vue.prototype.$logger = Logger.logger('openView')
+Vue.prototype.$logger = Logger.logger('openLog')
 Vue.prototype.$webSocket = SocketApi
 Vue.prototype.$wxApi = WxApi
 Vue.config.errorHandler = ErrorHandler

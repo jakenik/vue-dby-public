@@ -16,7 +16,7 @@ import CircleView from './packages/circle-view/index'
 import Radio from './packages/radio/index'
 import Checkbox from './packages/checkbox/index'
 
-const version = '2.1.0'
+const version = '2.1.1'
 export {
   version,
   ReponeFont,
