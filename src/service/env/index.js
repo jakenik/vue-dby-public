@@ -2,7 +2,7 @@
  * @Author: jake
  * @Date: 2019-01-21 11:50:33
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-24 17:44:51
+ * @Last Modified time: 2019-01-26 14:04:12
  * 配置编译环境和线上环境之间的切换
  */
 import { getUrlData } from '../extend/helper'
@@ -32,4 +32,5 @@ env.h5Userchat = 'https://<host>/h5_userchat/#/'.replace('<host>', env.host).rep
 env.business = 'https://<host>/gateway/business'.replace('<host>', env.host).replace('<version>', env.version)
 env.htmlRoute = 'https://<host>/'.replace('<host>', env.host).replace('<version>', env.version)
 env.url = 'https://' + env.host
+env.local = 'http://127.0.0.1:7001'
 export default env

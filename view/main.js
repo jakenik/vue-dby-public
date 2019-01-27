@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import { MessageBottom, ReponeFont, Request, Logger, WxApi, ErrorHandler, MessageCase, CircleView, Radio, Checkbox, SocketApi, Helper } from '../src/index.js'
+import { MessageBottom, ReponeFont, Request, Logger, WxApi, ErrorHandler, MessageCase, CircleView, Radio, Checkbox, SocketApi, Helper, ImRez, Env } from '../src/index.js'
 ReponeFont.init()
 Vue.component(MessageBottom.name, MessageBottom)
 Vue.component(MessageCase.name, MessageCase)
@@ -11,9 +11,11 @@ Vue.component(Checkbox.name, Checkbox)
 
 Vue.prototype.$request = Request
 Vue.prototype.$helper = Helper
-Vue.prototype.$logger = Logger.logger('openLog')
+Vue.prototype.$logger = Logger.logger('openView')
 Vue.prototype.$webSocket = SocketApi
 Vue.prototype.$wxApi = WxApi
+Vue.prototype.$imRez = ImRez
+Vue.prototype.$env = Env
 Vue.config.errorHandler = ErrorHandler
 // eslint-disable-next-line no-new
 new Vue({

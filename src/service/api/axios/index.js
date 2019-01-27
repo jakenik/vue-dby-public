@@ -2,34 +2,41 @@
  * @Author: jake
  * @Date: 2019-01-20 11:53:58
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-24 17:47:23
+ * @Last Modified time: 2019-01-26 15:40:12
  * 请求封装
  */
 
 import axios from 'axios'
 import { getUrlData } from '../../extend/helper'
 import env from '../../env'
+import errorRequset from '../../extend/errorRequset'
 axios.create({
   headers: { 'content-type': 'application/x-www-form-urlencoded;charset=utf8' }
 })
-axios.interceptors.request.use(config => {
-  return config
-}, err => {
-  return Promise.resolve(err)
-})
-axios.interceptors.response.use(data => {
-  return data
-}, err => {
-  let errMessage = {
-    504: '服务器出错',
-    404: '服务器接口暂无',
-    403: '权限不足,请联系管理员!',
-    401: '登录次数过多！请稍后再试'
+axios.interceptors.request.use(
+  config => {
+    return config
+  },
+  err => {
+    return Promise.resolve(err)
   }
-  let message = errMessage[err.response.status]
-  message ? err.message = message : err.message = '未知错误!'
-  return Promise.resolve(err)
-})
+)
+axios.interceptors.response.use(
+  data => {
+    return data
+  },
+  err => {
+    let errMessage = {
+      504: '服务器出错',
+      404: '服务器接口暂无',
+      403: '权限不足,请联系管理员!',
+      401: '登录次数过多！请稍后再试'
+    }
+    let message = errMessage[err.response.status]
+    message ? (err.message = message) : (err.message = '未知错误!')
+    return Promise.resolve(err)
+  }
+)
 const Request = class request {
   constructor () {
     this.requestWait = {}
@@ -46,7 +53,17 @@ const Request = class request {
    * @param baseURL 请求环境
    * @param noToken 需不需要携带token默认需要
    */
-  httpRequest ({ path, header = {}, data = {}, method, succ, fail, baseURL, noToken }) {
+  httpRequest ({
+    path,
+    header = {},
+    data = {},
+    method,
+    succ,
+    fail,
+    baseURL,
+    noToken,
+    notError
+  }) {
     method = method.toUpperCase()
     let encodeData
     if (method === 'GET') {
@@ -55,7 +72,7 @@ const Request = class request {
       if (!noToken && this.token) path += 'token=' + this.token + '&'
       path = path + encodeData
     } else {
-      if (!noToken && this.token)data.token = this.token
+      if (!noToken && this.token) data.token = this.token
       encodeData = this.encode(data)
     }
 
@@ -65,19 +82,44 @@ const Request = class request {
       data: data,
       header: header,
       baseURL: baseURL,
-      transformRequest: [() => {
-        return encodeData
-      }]
+      transformRequest: [
+        () => {
+          return encodeData
+        }
+      ]
     })
       .then(res => {
         if (res.data.succ || res.data.dbyData) {
-          succ(res)
+          try {
+            succ(res)
+          } catch (error) {
+            errorRequset({
+              error,
+              errorHttpSrc: baseURL + path,
+              errorHttpData: JSON.stringify(data),
+              callBackError: true
+            })
+          }
         } else {
           fail(res)
+          if (!notError) {
+            errorRequset({
+              error: JSON.stringify(res),
+              errorHttpSrc: baseURL + path,
+              errorHttpData: JSON.stringify(data)
+            })
+          }
         }
       })
       .catch(function (res) {
         fail(res)
+        if (!notError) {
+          errorRequset({
+            error: JSON.stringify(res),
+            errorHttpSrc: baseURL + path,
+            errorHttpData: JSON.stringify(data)
+          })
+        }
       })
   }
   encode (data) {
@@ -101,7 +143,7 @@ const Request = class request {
    * @param succ 成功
    * @param fail 失败
    */
-  login ({ data = {}, succ, fail }) {
+  login ({ data = {}, succ, fail, notError }) {
     data.code = getUrlData().code
     let path = '/weixin/serviceAccounts/authorizationLogin'
     let cSucc = res => {
@@ -113,8 +155,16 @@ const Request = class request {
     let cFail = res => {
       this.httpUsr(path, res, 'fail')
     }
-    if (this.httpSave(path, {succ, fail})) return
-    this.httpRequest({ path: path, data, method: 'post', succ: cSucc, fail: cFail, baseURL: env.apiH5 })
+    if (this.httpSave(path, { succ, fail })) return
+    this.httpRequest({
+      path: path,
+      data,
+      method: 'post',
+      succ: cSucc,
+      fail: cFail,
+      baseURL: env.apiH5,
+      notError
+    })
   }
   /**
    * 获取token
@@ -123,11 +173,7 @@ const Request = class request {
    * @param succ 成功
    * @param fail 失败
    */
-  getToken ({
-    data = {},
-    succ,
-    fail
-  }) {
+  getToken ({ data = {}, succ, fail, notError }) {
     const urlToken = getUrlData().token
     if (urlToken) {
       this.token = urlToken
@@ -140,11 +186,12 @@ const Request = class request {
       this.login({
         data,
         succ,
-        fail
+        fail,
+        notError
       })
     } else {
       const storeToken = window.localStorage.getItem('token')
-      this.checkVisitor({token: storeToken, data, succ, fail})
+      this.checkVisitor({ token: storeToken, data, succ, fail, notError })
     }
   }
   /**
@@ -155,7 +202,7 @@ const Request = class request {
    * @param fail 失败
    * @param token token
    */
-  checkVisitor ({ token, data = {}, succ, fail }) {
+  checkVisitor ({ token, data = {}, succ, fail, notError }) {
     data.token = token
     let path = '/user/registerAsVisitor'
     let cSucc = res => {
@@ -167,8 +214,16 @@ const Request = class request {
     let cFail = res => {
       this.httpUsr(path, res, 'fail')
     }
-    if (!this.httpSave(path, {succ, fail})) return
-    this.httpRequest({ path: path, data, method: 'post', succ: cSucc, fail: cFail, baseURL: env.apiH5 })
+    if (!this.httpSave(path, { succ, fail })) return
+    this.httpRequest({
+      path: path,
+      data,
+      method: 'post',
+      succ: cSucc,
+      fail: cFail,
+      baseURL: env.apiH5,
+      notError
+    })
   }
 
   httpSave (path, callBack) {
@@ -177,7 +232,9 @@ const Request = class request {
     if (!this.requestWait[path]) {
       this.requestWait[path] = []
       first = true
-    } else { first = false }
+    } else {
+      first = false
+    }
     this.requestWait[path].push(callBack)
     return first
   }

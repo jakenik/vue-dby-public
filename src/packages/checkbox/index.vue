@@ -57,98 +57,98 @@
 </template>
 <script>
 export default {
-  name: "checkbox",
+  name: 'checkbox',
   inject: {
     elForm: {
-      default: ""
+      default: ''
     },
     elFormItem: {
-      default: ""
+      default: ''
     }
   },
-  data() {
+  data () {
     return {
       selfModel: false,
       focus: false,
       isLimitExceeded: false
-    };
+    }
   },
 
   computed: {
     model: {
-      get() {
+      get () {
         return this.isGroup
           ? this.store
           : this.value !== undefined
-          ? this.value
-          : this.selfModel;
+            ? this.value
+            : this.selfModel
       },
 
-      set(val) {
+      set (val) {
         if (this.isGroup) {
-          this.isLimitExceeded = false;
+          this.isLimitExceeded = false
           this._checkboxGroup.min !== undefined &&
             val.length < this._checkboxGroup.min &&
-            (this.isLimitExceeded = true);
+            (this.isLimitExceeded = true)
 
           this._checkboxGroup.max !== undefined &&
             val.length > this._checkboxGroup.max &&
-            (this.isLimitExceeded = true);
+            (this.isLimitExceeded = true)
 
           this.isLimitExceeded === false &&
-            this.dispatch("ElCheckboxGroup", "input", [val]);
+            this.dispatch('ElCheckboxGroup', 'input', [val])
         } else {
-          this.$emit("input", val);
-          this.selfModel = val;
+          this.$emit('input', val)
+          this.selfModel = val
         }
       }
     },
 
-    isChecked() {
-      if ({}.toString.call(this.model) === "[object Boolean]") {
-        return this.model;
+    isChecked () {
+      if ({}.toString.call(this.model) === '[object Boolean]') {
+        return this.model
       } else if (Array.isArray(this.model)) {
-        return this.model.indexOf(this.label) > -1;
+        return this.model.indexOf(this.label) > -1
       } else if (this.model !== null && this.model !== undefined) {
-        return this.model === this.trueLabel;
+        return this.model === this.trueLabel
       }
     },
 
-    isGroup() {
-      let parent = this.$parent;
+    isGroup () {
+      let parent = this.$parent
       while (parent) {
-        if (parent.$options.componentName !== "ElCheckboxGroup") {
-          parent = parent.$parent;
+        if (parent.$options.componentName !== 'ElCheckboxGroup') {
+          parent = parent.$parent
         } else {
-          this._checkboxGroup = parent;
-          return true;
+          this._checkboxGroup = parent
+          return true
         }
       }
-      return false;
+      return false
     },
 
-    store() {
-      return this._checkboxGroup ? this._checkboxGroup.value : this.value;
+    store () {
+      return this._checkboxGroup ? this._checkboxGroup.value : this.value
     },
 
-    isDisabled() {
+    isDisabled () {
       return this.isGroup
         ? this._checkboxGroup.disabled ||
             this.disabled ||
             (this.elForm || {}).disabled
-        : this.disabled || (this.elForm || {}).disabled;
+        : this.disabled || (this.elForm || {}).disabled
     },
 
-    _elFormItemSize() {
-      return (this.elFormItem || {}).elFormItemSize;
+    _elFormItemSize () {
+      return (this.elFormItem || {}).elFormItemSize
     },
 
-    checkboxSize() {
+    checkboxSize () {
       const temCheckboxSize =
-        this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+        this.size || this._elFormItemSize || (this.$ELEMENT || {}).size
       return this.isGroup
         ? this._checkboxGroup.checkboxGroupSize || temCheckboxSize
-        : temCheckboxSize;
+        : temCheckboxSize
     }
   },
 
@@ -161,49 +161,49 @@ export default {
     name: String,
     trueLabel: [String, Number],
     falseLabel: [String, Number],
-    id: String /* 当indeterminate为真时，为controls提供相关连的checkbox的id，表明元素间的控制关系*/,
-    controls: String /* 当indeterminate为真时，为controls提供相关连的checkbox的id，表明元素间的控制关系*/,
+    id: String /* 当indeterminate为真时，为controls提供相关连的checkbox的id，表明元素间的控制关系 */,
+    controls: String /* 当indeterminate为真时，为controls提供相关连的checkbox的id，表明元素间的控制关系 */,
     border: Boolean,
     size: String
   },
 
   methods: {
-    addToStore() {
+    addToStore () {
       if (Array.isArray(this.model) && this.model.indexOf(this.label) === -1) {
-        this.model.push(this.label);
+        this.model.push(this.label)
       } else {
-        this.model = this.trueLabel || true;
+        this.model = this.trueLabel || true
       }
     },
-    handleChange(ev) {
-      if (this.isLimitExceeded) return;
-      let value;
+    handleChange (ev) {
+      if (this.isLimitExceeded) return
+      let value
       if (ev.target.checked) {
-        value = this.trueLabel === undefined ? true : this.trueLabel;
+        value = this.trueLabel === undefined ? true : this.trueLabel
       } else {
-        value = this.falseLabel === undefined ? false : this.falseLabel;
+        value = this.falseLabel === undefined ? false : this.falseLabel
       }
-      this.$emit("change", value, ev);
+      this.$emit('change', value, ev)
       this.$nextTick(() => {
         if (this.isGroup) {
-          this.dispatch("ElCheckboxGroup", "change", [
+          this.dispatch('ElCheckboxGroup', 'change', [
             this._checkboxGroup.value
-          ]);
+          ])
         }
-      });
+      })
     }
   },
 
-  created() {
-    this.checked && this.addToStore();
+  created () {
+    this.checked && this.addToStore()
   },
-  mounted() {
+  mounted () {
     // 为indeterminate元素 添加aria-controls 属性
     if (this.indeterminate) {
-      this.$el.setAttribute("aria-controls", this.controls);
+      this.$el.setAttribute('aria-controls', this.controls)
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .el-checkbox,
@@ -521,4 +521,3 @@ export default {
   font-size: 0;
 }
 </style>
-

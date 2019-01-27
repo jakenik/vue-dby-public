@@ -1,6 +1,7 @@
 import ReponeFont from './service/extend/reponeFont'
 import PageConfig from './service/mixins/pageConfig'
 import Request from './service/api/axios/index'
+import ImRez from './service/api/imRez/index'
 import Logger from './service/extend/logger'
 import WxApi from './service/api/wx/index'
 import SocketApi from './service/api/webSocket/index'
@@ -17,12 +18,13 @@ import Radio from './packages/radio/index'
 import Checkbox from './packages/checkbox/index'
 
 const Helper = require('./service/extend/helper')
-const version = '2.1.4'
+const version = '2.1.7'
 export {
   version,
   ReponeFont,
   PageConfig,
   Request,
+  ImRez,
   Logger,
   WxApi,
   SocketApi,

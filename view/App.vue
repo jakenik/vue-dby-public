@@ -18,6 +18,11 @@
       <radio v-model="radio" label="1" @change="changeRadio">备选项1</radio>
       <radio v-model="radio" label="2" disabled>备选项2</radio>
       <checkbox v-model="checked">备选项</checkbox>
+      <span class="btn btn-success fileinput-button">
+        <span>上传</span>
+        <input type="file" @change="onChangeFile">
+      </span>
+      <!-- <div>{{a.c.d}}</div> -->
     </div>
   </div>
 </template>
@@ -36,7 +41,8 @@ export default {
         content: '内容啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊'
       },
       radio: null,
-      checked: null
+      checked: null,
+      a: {}
     }
   },
   components: {
@@ -44,24 +50,24 @@ export default {
   },
   // mixins: [PageConfig],
   mounted: function () {
-    this.$logger.info('MessageBox1', '2222', '[]', 'p[{}1241', 1)
-    this.$logger.info(this.$wxApi)
-    this.$wxApi.wxConfig({source: '多保鱼服务号',
-      debug: true,
-      succ: () => {
-        this.$wxApi.wxPageInitShare({path: this.$route.path,
-          succ (res) {
-            console.log(res)
-          },
-          fail (res) {
-            console.log(res)
-          }})
-      },
-      fail () {}})
-    this.$helper.setStore({'asuifjaisdiao': 111})
-    console.log(this.$helper.getStore())
+    console.log(a)
+    // this.$logger.info('MessageBox1', '2222', '[]', 'p[{}1241', 1)
+    // this.$logger.info(this.$wxApi)
+    // this.$wxApi.wxConfig({source: '多保鱼服务号',
+    //   debug: true,
+    //   succ: () => {
+    //     this.$wxApi.wxPageInitShare({path: this.$route.path,
+    //       succ (res) {
+    //         console.log(res)
+    //       },
+    //       fail (res) {
+    //         console.log(res)
+    //       }})
+    //   },
+    //   fail () {}})
+    // this.$helper.setStore({'asuifjaisdiao': 111})
 
-    this.messageBoxOpen()
+    // this.messageBoxOpen()
     // setTimeout(()=>{
     //   MessageBox({
     //     cancelText: '取消3',
@@ -80,7 +86,7 @@ export default {
     //   }).open()
     // }, 3000)
     // Toast('1111')
-    this.$webSocket.websocketInit()
+    // this.$webSocket.websocketInit()
   },
   methods: {
     inputDown (val) {
@@ -118,6 +124,21 @@ export default {
     },
     onChangecheckList () {
       console.log(111)
+    },
+    onChangeFile (e) {
+      console.log(e.srcElement.files)
+      this.$imRez.upladFile({file: e.srcElement.files[0],
+        url: this.$env.apiBffAdmin + '/backend/uploadResource',
+        data: {
+          type: 'underwriting',
+          timestamp: true,
+          targetDirectory: '2019/1/27'
+        },
+        method: 'POST',
+        size: 1025,
+        succ () {},
+        fail () {},
+        quality: 0.6})
     }
   }
 }
@@ -127,5 +148,19 @@ export default {
   .c{
     color: $nav-color;
     font-size: 30 * $unit;
+  }
+  .fileinput-button {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+  }
+
+  .fileinput-button input{
+    position:absolute;
+    right: 0px;
+    top: 0px;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    font-size: 200px;
   }
 </style>

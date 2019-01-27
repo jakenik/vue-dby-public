@@ -2,7 +2,7 @@
  * @Author: jake
  * @Date: 2019-01-24 10:25:52
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-24 17:08:18
+ * @Last Modified time: 2019-01-26 16:31:50
  * websocket封装
  */
 const env = require('../../env').default

@@ -17,60 +17,58 @@
 export default {
   name: '',
   props: {
-    type:String
+    type: String
   },
   data () {
     return {
       socketMsgRecv: [],
       timer: null,
       userInfo: null,
-      do:false,//弹幕是否进行中
+      do: false // 弹幕是否进行中
     }
   },
   methods: {
-    load() {
-      let type = this.type;
-      if(!type){
-        type = 'userOperation';
+    load () {
+      let type = this.type
+      if (!type) {
+        type = 'userOperation'
       }
       this.dbyPublic.websocketRegisterHandler(type, msg => {
-
-        if(msg.type != type) {
-          return;
+        if (msg.type !== type) {
+          return
         }
 
-        if(msg.data.pictureUrl && this.userInfo && msg.data.pictureUrl == this.userInfo.avatarUrl) {
-          this.dbyPublic.globalData.socketMsgRecv.unshift(msg);
+        if (msg.data.pictureUrl && this.userInfo && msg.data.pictureUrl === this.userInfo.avatarUrl) {
+          this.dbyPublic.globalData.socketMsgRecv.unshift(msg)
         } else {
-          this.dbyPublic.globalData.socketMsgRecv.push(msg);
+          this.dbyPublic.globalData.socketMsgRecv.push(msg)
         }
 
-        if(!this.do){
-          this.barrage();
+        if (!this.do) {
+          this.barrage()
         }
       })
     },
-    barrage() {
-      let arr = this.dbyPublic.globalData.socketMsgRecv;
-      let obj = arr.shift();
-      if(obj) {
-        obj.data.flg = true;
-        this.socketMsgRecv.push(obj.data);
-        this.do = true;
+    barrage () {
+      let arr = this.dbyPublic.globalData.socketMsgRecv
+      let obj = arr.shift()
+      if (obj) {
+        obj.data.flg = true
+        this.socketMsgRecv.push(obj.data)
+        this.do = true
         setTimeout(() => {
-          this.socketMsgRecv.shift();
+          this.socketMsgRecv.shift()
         }, 1500)
         setTimeout(() => {
           this.barrage()
-        },3000)
-      }
-      else{
-        this.do = false;
+        }, 3000)
+      } else {
+        this.do = false
       }
     }
   },
-  mounted: function() { //挂载结束状态===============》
-    this.load();
+  mounted: function () { // 挂载结束状态===============》
+    this.load()
   }
 }
 </script>
@@ -224,8 +222,7 @@ export default {
   {
     opacity: 0;
   }
-.list-complete-enter
-	 {
+.list-complete-enter{
   opacity: 0;
   transform: translateY(4rem);
 }

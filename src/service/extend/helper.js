@@ -2,7 +2,7 @@
  * @Author: jake
  * @Date: 2019-01-20 11:51:30
  * @Last Modified by: jake
- * @Last Modified time: 2019-01-24 17:56:22
+ * @Last Modified time: 2019-01-26 15:33:34
  * 工具类型的封装都放在这里
  */
 /**
@@ -65,7 +65,9 @@ export function getStringType (str) {
   if (str) {
     try {
       let type
-      JSON.parse(str).length === undefined ? type = 'object' : type = 'array'
+      JSON.parse(str).length === undefined
+        ? (type = 'object')
+        : (type = 'array')
       return type
     } catch (error) {
       return false
@@ -102,14 +104,78 @@ export function setStore (content) {
   window.localStorage.setItem(name, content)
 }
 
+export function removeStore (name) {
+  if (!name) return false
+  window.localStorage.removeItem(name)
+  return true
+}
+
+/**
+ * 存储sessionStorage
+ */
+export function setSessionStorage (content) {
+  let name = getHash()
+  const data = window.sessionStorage.getItem(name)
+  try {
+    content = {...JSON.parse(data), ...content}
+  } catch (error) {}
+  if (typeof content !== 'string') {
+    content = JSON.stringify(content)
+  }
+  window.sessionStorage.setItem(name, content)
+}
+/**
+ * 得到sessionStorage
+ */
+export function getSessionStorage (name) {
+  if (!name) return
+  let data = window.sessionStorage.getItem(name)
+  if (!data) {
+    return false
+  }
+  try {
+    data = JSON.parse(data)
+  } catch (error) {}
+  return data
+}
+/**
+ * 删除sessionStorage
+ */
+export function removeSessionStorage (name) {
+  if (!name) return false
+  window.sessionStorage.removeItem(name)
+  return true
+}
+/**
+ * 挂载监听
+ */
+export function on (obj, sev, fn) {
+  if (typeof obj === 'object' && obj.length > 0) {
+    obj.forEach(value => {
+      on(value, sev, fn)
+    })
+    return
+  }
+  if (obj.addachEvent) {
+    obj.addachEvent('on' + sev, fn, false)
+  } else {
+    obj.addEventListener(sev, fn, false)
+  }
+}
+
 export function getTime (mode) {
   let date = new Date()
   let year = date.getFullYear()
   let month = date.getMonth() + 1
   let day = date.getDate()
+  let h = date.getHours()
+  let m = date.getMinutes()
+  let s = date.getSeconds()
   switch (mode) {
     case 'YYYY-MM-DD':
-      return year + '-' + month + '-' + day
+      return `${year}-${month}-${day}`
+    case 'YYYY-MM-DD HH:mm:ss':
+      return `${year}-${month}-${day} ${h}:${m}:${s}`
     default:
       break
   }
