@@ -1,0 +1,2 @@
+webpackJsonp([2],{"48Kn":function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var r={render:function(){var e=this.$createElement,n=this._self._c||e;return n("section",[[n("router-view")]],2)},staticRenderFns:[]},l=t("C7Lr")(null,r,!1,null,null,null);n.default=l.exports},P6tE:function(e,n,t){e.exports=t("48Kn")}});
+//# sourceMappingURL=2.1dfc9cda324fa0bafcd9.js.map
