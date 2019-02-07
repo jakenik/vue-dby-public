@@ -5,7 +5,21 @@
  * @Last Modified time: 2019-01-26 14:04:12
  * 配置编译环境和线上环境之间的切换
  */
-import { getUrlData } from '../extend/helper'
+import '../../style/index.css'
+function getUrlData () {
+  let url = decodeURIComponent(location.href) // 获取url中"?"符后的字串
+  const index = url.indexOf('?')
+  const theRequest = {}
+  if (index !== -1) {
+    url = url.substring(index, url.length)
+    const str = url.substr(1)
+    const strs = str.split('&')
+    for (let i = 0; i < strs.length; i++) {
+      theRequest[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+    }
+  }
+  return theRequest
+}
 const env = {
   version: 'prod/' // 当前版本
 }
@@ -16,21 +30,23 @@ if (urlJson.apiver) {
 }
 env.host = window.location.host
 env.protocol = document.location.protocol + '//'
-if (process.env.NODE_ENV === 'development' || window.localStorage.getItem('NODE_ENV') === 'true') {
+if (window.localStorage.getItem('NODE_ENV_DEVELOPMENT') === 'true') {
   env.host = 'admin.91duobaoyu.com'
   env.protocol = 'https://'
 }
 
-env.apiBffAdmin = 'https://<host>/api_bff_admin'.replace('<host>', env.host).replace('<version>', env.version)
-env.apiBff = 'https://<host>/api_bff'.replace('<host>', env.host).replace('<version>', env.version)
-env.apiChat = 'https://<host>/api_chat'.replace('<host>', env.host).replace('<version>', env.version)
-env.apiH5Wss = 'wss://<host>/api_h5/websocket/'.replace('<host>', env.host).replace('<version>', env.version)
-env.apiH5 = 'https://<host>/api_h5'.replace('<host>', env.host).replace('<version>', env.version)
-env.res = 'https://<host>/res'.replace('<host>', env.host)
-env.h5Official = 'https://<host>/h5_official/#'.replace('<host>', env.host).replace('<version>', env.version)
-env.h5Userchat = 'https://<host>/h5_userchat/#/'.replace('<host>', env.host).replace('<version>', env.version)
-env.business = 'https://<host>/gateway/business'.replace('<host>', env.host).replace('<version>', env.version)
-env.htmlRoute = 'https://<host>/'.replace('<host>', env.host).replace('<version>', env.version)
-env.url = 'https://' + env.host
+env.apiBffAdmin = `${env.protocol}${env.host}/api_bff_admin`
+env.apiBff = `${env.protocol}${env.host}/api_bff`
+env.apiChat = `${env.protocol}${env.host}/api_chat`
+env.apiH5Wss = `wss://${env.host}/api_h5/websocket`
+env.apiH5 = `${env.protocol}${env.host}/api_h5`
+env.res = `${env.protocol}${env.host}/res`
+env.h5Official = `${env.protocol}${env.host}/h5_official/#`
+env.h5Userchat = `${env.protocol}${env.host}/h5_userchat/#`
+env.business = `${env.protocol}${env.host}/gateway/business`
+env.htmlRoute = `${env.protocol}${env.host}/`
 env.local = 'http://127.0.0.1:7001'
+env.install = function (Vue) {
+  Vue.prototype.$env = env
+}
 export default env

@@ -1,0 +1,7 @@
+{
+  "input": "./src/components/input",
+  "button-model": "./src/components/buttonModel",
+  "index": "./src/index.js",
+  "logger-view": "./src/components/logger-view",
+  "radio":"./src/components/radio"
+}

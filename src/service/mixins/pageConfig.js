@@ -5,14 +5,13 @@
  * @Last Modified time: 2019-01-22 17:51:02
  * 页面初始化时添加页面配置
  */
-const request = require('../api/axios/index').default
-const env = require('../env').default
+import '../../style/index.css'
 export default {
   created () {
     let isCall = (fn) => this[fn] && typeof this[fn] === 'function'
-    request.getToken({
+    this.$request.getToken({
       succ: () => {
-        request.httpRequest({ path: '/page/pageViewData',
+        this.$request.httpRequest({ path: '/page/pageViewData',
           data: {
             pageName: this.$route.path
           },
@@ -32,7 +31,7 @@ export default {
           fail: (res) => {
             if (isCall('configError')) this.configError(res)
           },
-          baseURL: env.apiBff
+          baseURL: this.$env.apiBff
         })
       },
       fail: (res) => {

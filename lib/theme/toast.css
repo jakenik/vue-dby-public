@@ -1,0 +1,65 @@
+
+@charset "UTF-8";
+.dby-toast {
+  position: fixed;
+  max-width: 80%;
+  border-radius: 0.26667rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  text-align: center;
+  z-index: 1000;
+  left: 50%;
+  top: 50%;
+  transition: opacity 0.3s linear;
+  -moz-transition: opacity 0.3s linear;
+  /* Firefox 4 */
+  -webkit-transition: opacity 0.3s linear;
+  /* Safari 和 Chrome */
+  -o-transition: opacity 0.3s linear;
+  /* Opera */
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  /* IE 9 */
+  -moz-transform: translate(-50%, -50%);
+  /* Firefox */
+  -webkit-transform: translate(-50%, -50%);
+  /* Safari 和 Chrome */
+  -o-transform: translate(-50%, -50%);
+  /* Opera */
+}
+.dby-toast-icon {
+  display: block;
+  text-align: center;
+  font-size: 2.98667rem;
+}
+.dby-toast-text {
+  font-size: 0.74667rem;
+  display: block;
+  text-align: center;
+}
+.dby-toast-placetop {
+  top: 2.66667rem;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+}
+.dby-toast-placemiddle {
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.dby-toast-placebottom {
+  bottom: 2.66667rem;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+}
+.dby-toast-pop-enter,
+.dby-toast-pop-leave-active {
+  opacity: 0;
+}
+
+/*# sourceMappingURL=toast.css.map*/

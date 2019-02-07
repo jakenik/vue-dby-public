@@ -1,0 +1,57 @@
+
+.base-button {
+  background: -webkit-gradient(linear, left top, left bottom, from(#fc5657), to(#fb6a53));
+  background: linear-gradient(#fc5657, #fb6a53);
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  -webkit-box-shadow: 0.16rem 0.21333rem 0.13333rem 0.02667rem rgba(85, 77, 192, 0.2);
+          box-shadow: 0.16rem 0.21333rem 0.13333rem 0.02667rem rgba(85, 77, 192, 0.2);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  min-width: 5.33333rem;
+  min-height: 2.13333rem;
+  text-align: center;
+  line-height: 2.13333rem;
+  border-radius: 1.33333rem;
+  color: #fff;
+  display: inline-block;
+  font-size: 0.85333rem;
+  padding: 0 0.8rem;
+  cursor: pointer;
+  z-index: 8;
+  position: relative;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+.base-button-select {
+  -webkit-box-shadow: 0.16rem 0.26667rem 0.13333rem 0.05333rem rgba(85, 77, 192, 0.3);
+          box-shadow: 0.16rem 0.26667rem 0.13333rem 0.05333rem rgba(85, 77, 192, 0.3);
+}
+
+.base-geste {
+  position: absolute;
+  z-index: 1;
+  background: #fff;
+  border-radius: 50%;
+  -webkit-transform: translate(-50%, -50%) scale(1, 1);
+          transform: translate(-50%, -50%) scale(1, 1);
+  -webkit-transition: all 0.35s cubic-bezier(1, 0.8, 0.5, 0.3);
+  transition: all 0.35s cubic-bezier(1, 0.8, 0.5, 0.3);
+  opacity: 0.3;
+}
+.base-geste-fade-enter {
+  -webkit-transform: translate(-50%, -50%) scale(0, 0);
+          transform: translate(-50%, -50%) scale(0, 0);
+}
+.base-geste-fade-leave-active {
+  opacity: 0;
+}
+.base-geste-fade-leave-to {
+  opacity: 0;
+}
+
+/*# sourceMappingURL=button.css.map*/

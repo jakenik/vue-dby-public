@@ -5,13 +5,11 @@
  * @Last Modified time: 2019-01-27 10:14:25
  * 错误捕获通知钉钉群
  */
-import request from '../api/axios/index'
-import env from '../env'
-let $logger = require('./logger').default
-$logger = $logger.logger()
+
 let errorRequsetFaults = false
 export default function ({error, errorHttpSrc, errorHttpData, callBackError}) {
-  if (errorRequsetFaults || window.localStorage.getItem('NODE_ENV') === 'true') return false
+  const { $logger, $env, $request } = this
+  if (errorRequsetFaults || window.localStorage.getItem('NODE_ENV_DEVELOPMENT') === 'true') return false
   let errorRequset = (token) => {
     if (callBackError === undefined) callBackError = false
     let json = {
@@ -24,7 +22,7 @@ export default function ({error, errorHttpSrc, errorHttpData, callBackError}) {
       }
     }
     $logger.error(json)
-    request.httpRequest({
+    $request.httpRequest({
       path: '/page/error',
       data: {
         content: json
@@ -36,11 +34,11 @@ export default function ({error, errorHttpSrc, errorHttpData, callBackError}) {
       fail () {
 
       },
-      baseURL: env.local,
+      baseURL: $env.local,
       notError: true
     })
   }
-  request.getToken({
+  $request.getToken({
     succ: (res) => {
       let token = res.token
       try {

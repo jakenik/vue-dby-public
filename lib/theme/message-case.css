@@ -1,0 +1,48 @@
+
+#dby-message-case[data-v-4fff2053] {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.6);
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  height: 110%;
+}
+.dby-message-case-body[data-v-4fff2053] {
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  top: 12%;
+  background-color: #fff;
+  border-radius: .26667rem;
+  width: 14.4rem;
+  min-height: 18.48rem;
+  -webkit-box-shadow: 0 0.13333rem 1.01333rem 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0.13333rem 1.01333rem 0 rgba(0, 0, 0, 0.2);
+}
+.dby-message-case-close[data-v-4fff2053] {
+  position: absolute;
+  bottom: 0%;
+  left: 50%;
+  -webkit-transform: translate(-50%, 150%);
+          transform: translate(-50%, 150%);
+  z-index: 1000;
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  outline: 0;
+  margin: 0;
+  font-size: 0.64rem;
+  border-radius: 0.16rem;
+}
+
+/*# sourceMappingURL=message-case.css.map*/

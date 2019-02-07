@@ -1,0 +1,68 @@
+/*
+* 初始化变量
+*/
+// @import './common.scss';
+$nav-color: #F90;
+$unit: 1rem/10!global; //单位转换
+/*
+* 函数调用
+*/
+@mixin translate($x, $y) {
+  transform:translate($x,$y);
+  -ms-transform:translate($x,$y); 	/* IE 9 */
+  -moz-transform:translate($x,$y); 	/* Firefox */
+  -webkit-transform:translate($x,$y); /* Safari 和 Chrome */
+  -o-transform:translate($x,$y); 	/* Opera */
+}
+
+@mixin transition($value) {
+  transition: $value;
+  -moz-transition: $value; /* Firefox 4 */
+  -webkit-transition: $value; /* Safari 和 Chrome */
+  -o-transition: $value; /* Opera */
+}
+
+@mixin opacity($opacity){
+  -moz-opacity:$opacity; /* 老版Mozilla */
+  -khtml-opacity:$opacity; /* 老版Safari */
+  opacity: $opacity; /* 支持opacity的浏览器*/
+}
+
+@mixin scroll(){
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+/*全局样式*/
+.message-fade-enter-active {
+  -webkit-animation: message-fade-in 0.3s;
+  animation: message-fade-in 0.3s;
+  }
+  .message-fade-leave-active {
+    -webkit-animation: message-fade-out 0.3s;
+    animation: message-fade-out 0.3s;
+  }
+  @keyframes message-fade-in {
+    0% {
+      -webkit-transform: translate3d(0, -20px, 0);
+      transform: translate3d(0, -20px, 0);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+  }
+  @keyframes message-fade-out {
+    0% {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: translate3d(0, -20px, 0);
+      transform: translate3d(0, -20px, 0);
+      opacity: 0;
+    }
+  }

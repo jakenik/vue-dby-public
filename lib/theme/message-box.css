@@ -1,0 +1,75 @@
+
+@charset "UTF-8";
+#dby-message-box[data-v-14259c5f] {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 1;
+  transition: opacity 0.2s linear;
+  -moz-transition: opacity 0.2s linear;
+  /* Firefox 4 */
+  -webkit-transition: opacity 0.2s linear;
+  /* Safari 和 Chrome */
+  -o-transition: opacity 0.2s linear;
+  /* Opera */
+  height: 110%;
+}
+.dby-message-box-body[data-v-14259c5f] {
+  position: absolute;
+  top: 10.50667rem;
+  left: 50%;
+  width: 80%;
+  min-height: 20%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  background-color: #fff;
+  border-radius: .50667rem;
+  overflow: hidden;
+  padding-bottom: 2.61333rem;
+  opacity: 1;
+}
+.dby-message-box-action[data-v-14259c5f] {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.dby-message-box-button[data-v-14259c5f] {
+  height: 2.61333rem;
+  line-height: 2.66667rem;
+  color: #0a8cdf;
+  font-size: .96rem;
+  text-align: center;
+  border-radius: 0 0 .4rem 0;
+  border: 0.05333rem solid #e5e5e5;
+  border-left: none;
+  width: 50%;
+}
+.dby-message-box-cancel[data-v-14259c5f] {
+  border-radius: 0;
+}
+.dby-message-box-title[data-v-14259c5f] {
+  font-size: 1.2rem;
+  color: #717dda;
+  display: block;
+  margin: .53333rem 0 0;
+  text-align: center;
+  min-height: 1.4rem;
+}
+.dby-message-box-content[data-v-14259c5f] {
+  font-size: .90667rem;
+  color: #313131;
+  display: block;
+  margin: .5rem 1.06667rem 0;
+  text-align: center;
+}
+
+/*# sourceMappingURL=message-box.css.map*/

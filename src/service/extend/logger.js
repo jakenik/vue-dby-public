@@ -5,12 +5,14 @@
  * @Last Modified time: 2019-01-24 17:45:03
  * 对log进行封装
  */
-
-import {getType} from './helper'
-import LoggerView from '../../packages/logger-view'
+import LoggerView from '../../components/logger-view'
 const Logger = class logger {
   constructor () {
     this.onLoad()
+  }
+  install (Vue, options) {
+    let debug = options.debug
+    Vue.prototype.$logger = this.logger(debug)
   }
   onLoad () {
     let data = this.loadData()
@@ -24,6 +26,29 @@ const Logger = class logger {
       logList: [] // log查询的所有数据
     }
   }
+  type (object) {
+    let class2type = {
+      '[object Boolean]': 'boolean',
+      '[object Number]': 'number',
+      '[object String]': 'string',
+      '[object Function]': 'function',
+      '[object Array]': 'array',
+      '[object Date]': 'date',
+      '[object RegExp]': 'regExp',
+      '[object Object]': 'object',
+      '[object Error]': 'error'
+    }
+    return class2type[Object.prototype.toString.call(object)]
+  }
+  getType (parame, _type) {
+    switch (typeof _type) {
+      case 'string':
+        return this.type(parame) === _type
+      case 'object':
+        return _type.indexOf(this.type(parame)) !== -1
+    }
+    return false
+  }
   logger (debug) {
     // 公共输出log方法
     if (debug) this.debug = debug
@@ -33,7 +58,7 @@ const Logger = class logger {
       let value = []
       for (let index = 0; index < array.length; index++) {
         let element = array[index]
-        if (getType(element, ['error'])) element = element.toString()
+        if (that.getType(element, ['error'])) element = element.toString()
         value.push(element)
       }
       value = JSON.stringify(value).replace(/^\[|\]$/g, '')

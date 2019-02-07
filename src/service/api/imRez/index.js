@@ -5,7 +5,11 @@
  * @Last Modified time: 2019-01-27 14:15:58
  * 图片压缩插件
  */
+import '../../../style/index.css'
 const ImRez = class ImRez {
+  install (Vue) {
+    Vue.prototype.$imRez = this
+  }
   photoCompress (file, w, objDiv) {
     let that = this
     let ready = new FileReader()
@@ -19,7 +23,7 @@ const ImRez = class ImRez {
   canvasDataURL (path, obj, callback) {
     let img = new Image()
     img.src = path
-    let quality = this.quality
+    let quality = obj.quality
     img.onload = function () {
       let that = this
       // 默认按比例压缩
@@ -45,7 +49,6 @@ const ImRez = class ImRez {
       let base64 = canvas.toDataURL('image/jpeg', quality)
       // 回调函数返回base64的值
       callback(base64)
-      document.querySelector('.img').src = base64
     }
   }
   /**
@@ -84,29 +87,28 @@ const ImRez = class ImRez {
    * size 默认1m超出这个限制就压缩
    * succ 成功回调
    * fail失败回调
+   * quality 压缩比例 默认0.7
    */
   upladFile ({file, url, data, method, size = 1024, succ, fail, quality = 0.7}) {
-    console.log(file, url, data, method, size, succ, fail, quality)
     let xhr
     let fileObj = file // js 获取文件对象
     let form = new FormData() // FormData 对象
     for (let key in data) {
       form.append(key, data[key])
     }
-    let send = () => {
+    let send = (base64) => {
       xhr = new XMLHttpRequest() // XMLHttpRequest 对象
       xhr.open(method, url, true) // post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。
       xhr.onload = res => {
         // let s = this.getTarget(res);
-        succ(res)
+        succ(res, base64)
       } // 请求完成
       xhr.onerror = res => {
         // let s = this.getTarget(res);
-        fail(res)
+        fail(res, base64)
       } // 请求失败
       xhr.send(form) // 开始上传，发送form数据
     }
-    // if (!size) size = 1024
     this.quality = quality
     if (fileObj.size / 1024 > size) {
       // 大于1M，进行压缩上传
@@ -118,7 +120,7 @@ const ImRez = class ImRez {
         base64Codes => {
           let bl = this.convertBase64UrlToBlob(base64Codes)
           form.append('file', bl, 'file_' + Date.parse(new Date()) + '.jpg') // 文件对象
-          send()
+          send(base64Codes)
         }
       )
     } else {

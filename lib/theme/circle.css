@@ -1,0 +1,101 @@
+
+@charset "UTF-8";
+.wave[data-v-32604dcc] {
+  position: relative;
+  display: inline-block;
+  min-width: 2.13333rem;
+  min-height: 2.13333rem;
+  text-align: center;
+  line-height: 2.13333rem;
+  font-size: 28px;
+  opacity: 0.6;
+}
+.wave .circle-view[data-v-32604dcc] {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+}
+/* 波纹效果 */
+.wave.ripple .circle-view[data-v-32604dcc] {
+  width: calc(100% - 6px);
+  /* 减去边框的大小 */
+  height: calc(100% - 6px);
+  /* 减去边框的大小 */
+  border: 3px solid #fff;
+}
+.wave.ripple .circle-view[data-v-32604dcc]:first-child {
+  -webkit-animation: circle-view-opacity-data-v-32604dcc 2s infinite;
+          animation: circle-view-opacity-data-v-32604dcc 2s infinite;
+}
+.wave.ripple .circle-view[data-v-32604dcc]:nth-child(2) {
+  -webkit-animation: circle-view-opacity-data-v-32604dcc 2s infinite;
+          animation: circle-view-opacity-data-v-32604dcc 2s infinite;
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s;
+}
+.wave.ripple .circle-view[data-v-32604dcc]:nth-child(3) {
+  -webkit-animation: circle-view-opacity-data-v-32604dcc 2s infinite;
+          animation: circle-view-opacity-data-v-32604dcc 2s infinite;
+  -webkit-animation-delay: 0.6s;
+          animation-delay: 0.6s;
+}
+.wave.ripple.danger[data-v-32604dcc] {
+  color: #fa535c;
+}
+.wave.ripple.danger .circle-view[data-v-32604dcc] {
+  border-color: #fa535c;
+}
+.wave.ripple.warning[data-v-32604dcc] {
+  color: orange;
+}
+.wave.ripple.warning .circle-view[data-v-32604dcc] {
+  border-color: orange;
+}
+/* 波动效果 */
+.wave.solid .circle-view[data-v-32604dcc] {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+}
+.wave.solid .circle-view[data-v-32604dcc]:first-child {
+  -webkit-animation: circle-view-opacity-data-v-32604dcc 2s infinite;
+          animation: circle-view-opacity-data-v-32604dcc 2s infinite;
+}
+.wave.solid.danger[data-v-32604dcc] {
+  color: red;
+}
+.wave.solid.danger .circle-view[data-v-32604dcc] {
+  background: red;
+}
+.wave.solid.warning[data-v-32604dcc] {
+  color: #fa535c;
+}
+.wave.solid.warning .circle-view[data-v-32604dcc] {
+  background: #fa535c;
+}
+@-webkit-keyframes circle-view-opacity-data-v-32604dcc {
+from {
+    opacity: 1;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+}
+to {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+}
+@keyframes circle-view-opacity-data-v-32604dcc {
+from {
+    opacity: 1;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+}
+to {
+    opacity: 0;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+}
+
+/*# sourceMappingURL=circle.css.map*/
