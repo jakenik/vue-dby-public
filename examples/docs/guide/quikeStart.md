@@ -67,29 +67,30 @@ npm install babel-plugin-component -D
 
 ```javascript
 import Vue from 'vue';
-import { BaseCircle, BaseToast, BaseButton, BaseCheckbox, BaseMessageBottom,
-BaseMessageBox, BaseMessageCase, BaseRadio, BaseGeste, Request, Env, WxApi,
-Logger, SocketApi, ImRez,ReponeFont, Helper, ErrorHandler } from 'dby-base';
 import App from './App.vue';
-
-Vue.component(BaseCircle.name, BaseCircle)
-Vue.component(BaseButton.name, BaseButton)
-Vue.component(BaseCheckbox.name, BaseCheckbox)
-Vue.component(BaseMessageBottom.name, BaseMessageBottom)
-Vue.component(BaseMessageCase.name, BaseMessageCase)
-Vue.component(BaseRadio.name, BaseRadio)
+// 所有组件都带有base
+import { Circle, Toast, Button, Checkbox, MessageBottom,
+  MessageBox, MessageCase, Radio, Geste, Request, Env, WxApi,
+  Logger, SocketApi, ImRez, ReponeFont, Helper, ErrorHandler } from 'dby-base'
+Vue.config.productionTip = false
+Vue.component(Circle.name, Circle)
+Vue.component(Button.name, Button)
+Vue.component(Checkbox.name, Checkbox)
+Vue.component(MessageBottom.name, MessageBottom)
+Vue.component(MessageCase.name, MessageCase)
+Vue.component(Radio.name, Radio)
 Vue.use(Helper)
 Vue.use(Env)
-Vue.use(Logger, {debug: 'openLog'})
+Vue.use(Logger, {debug: 'openView'})
 Vue.use(Request)
 Vue.use(ErrorHandler)
 Vue.use(SocketApi)
 Vue.use(WxApi)
-Vue.use(BaseGeste)
+Vue.use(Geste)
 Vue.use(ImRez)
-Vue.use(BaseToast)
-Vue.use(BaseMessageBox)
-Vue.use(ReponeFont)
+Vue.use(Toast)
+Vue.use(MessageBox)
+ReponeFont.init()
 /* 或写为
  * Vue.use(Input)
  */
